@@ -25,10 +25,10 @@ It is the same kind of data but an other interpretation and I use a lot more dat
 emission, which triggers one out of these three graphs, selected by a dropdown menu (MVP):
     - Greenhouse emissions, with tooltip and checkbox for the kinds of emission (MVP)
     - Energy use, with tooltip and checkbox for renewable energy (MVP)
-    - Forest area and protected terrestial and marine areas, with tooltip and checkbox which of the two has to be shown.
+    - Forest area and protected terrestrial and marine areas, with tooltip and checkbox which of the two has to be shown.
 
 #### Data:
-All data is from https://data.worldbank.org/. The data does not need to be transformed. 
+All data is from https://data.worldbank.org/. The data needs to be transformed to JSON format.
 
 #### External components:
 - D3 library : "https://d3js.org/d3.v3.min.js"
@@ -36,7 +36,7 @@ All data is from https://data.worldbank.org/. The data does not need to be trans
 
 #### Similar visualizations:
 http://www.carbonmap.org/
-The values are not in a graph but as an infobox and colour scheme on the map. The colour scheme is also possible for my
+The values are not in a graph but as an info box and colour scheme on the map. The colour scheme is also possible for my
 project, however an extra graph on the side will give more insight.
 The map does not zoom in, this is difficult for selecting small countries. Some more info on the country is also nice to add,
 for example population.
