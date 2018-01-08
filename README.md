@@ -1,10 +1,10 @@
-###### Minor programming, University of Amsterdam
-###### Programmeerproject
-###### 10556346
-###### Raoul Lieben
+###### Study: Minor programming, University of Amsterdam
+###### Course: Programmeerproject
+###### Student ID: 10556346
+###### Name: Raoul Lieben
+###### Content: Proposal for visualizing the world's climate change problem
 
-
-# Proposal:
+# Climate change problem:
 
 #### Problem Statement:
 
