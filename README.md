@@ -1,4 +1,4 @@
-# Minor programming, University of Amsterdam
+## Minor programming, University of Amsterdam
 # Programmeerproject
 # 10556346
 # Raoul Lieben
