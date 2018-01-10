@@ -18,7 +18,7 @@ An interactive brain network, showing info on the clickable node and a heat map 
     o	Interactive table showing info about the node
     o	Heat map for connection-strength to each node in the network
 •	Static table showing demographics of the dataset
-
+Sketch: https://github.com/rlieben/Eindproject/blob/master/doc/designsketch.JPG
 ##### Data:
 Anonymized functional brain network with correlation strengths. Obtained from the BioCog research group at the University Medical Center Utrecht. 
 
