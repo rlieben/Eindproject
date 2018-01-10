@@ -20,5 +20,5 @@ Heatmap: If a node is clicked, all connections from that node have to be extract
 Static table with demographics: Demographic data of the total dataset has to be put into a table.
 
 #### Plugins:
-D3-V3
-D3-queue
+- D3-V3
+- D3-queue
