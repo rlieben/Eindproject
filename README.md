@@ -28,6 +28,8 @@ Anonymized functional brain network with correlation strengths. Obtained from th
 #### External components:
 •	D3 library : "https://d3js.org/d3.v3.min.js"
 •	D3 network libraries: “http://bl.ocks.org/jose187/4733747”
+-  D3 queue
+- Bootstrap
 
 #### Similar visualizations:
 There are interactive visualizations of the brain, but not of a functional network the brain shows. The only visualization made are not interactive and only for publishing. A static example is the BrainNet viewer (https://www.nitrc.org/projects/bnv/), but is a plugin for MatLab.
