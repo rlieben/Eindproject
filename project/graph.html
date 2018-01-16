@@ -13,8 +13,39 @@ Raoul Lieben
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+		<style>
+			/* network graph */
+			.links line {
+				stroke: #999;
+				stroke-opacity: 0.6;
+			}
 
-		<link rel="stylesheet" type="text/css" href="week_6.css">
+			.nodes circle {
+				stroke: #fff;
+				stroke-width: 1.5px;
+			}
+			/* heatmap */
+			rect.bordered {
+        		stroke: #E6E6E6;
+        		stroke-width:2px;   
+     		}
+
+      		text.mono {
+        		font-size: 9pt;
+        		font-family: Consolas, courier;
+        		fill: #aaa;
+      		}
+
+      		text.axis-workweek {
+        		fill: #000;
+      		}
+
+      		text.axis-worktime {
+        		fill: #000;
+      		}
+
+		</style>
+		<!-- <link rel="stylesheet" type="text/css" href="week_6.css">
 		<script src="https://d3js.org/d3.v3.min.js"></script>
 		<script src="https://d3js.org/d3-time.v1.min.js"></script>
 		<script src="https://d3js.org/d3-time-format.v2.min.js"></script>
@@ -23,11 +54,15 @@ Raoul Lieben
 		<script src="https://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 		<script src="https://d3js.org/queue.v1.min.js"></script>
 		<script src="week6.js"></script>
+	-->
+	<svg width="960" height="600"></svg>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="projectnetwork.js"></script>
 	</head>
 	<body>
 
 		<div class="container">
-			<h2>Brain network visualization project</h2>
+			<h1>Brain network visualization project</h1>
 			<ul class="nav nav-tabs" role="tablist">
 			<li><a href="index.html">Home</a></li>
 			<li class="active"><a href="graph.html">Graph</a></li>
@@ -37,7 +72,7 @@ Raoul Lieben
 		</ul>
 
 		<p>
-			<img src="ucimg.jpg" alt="Under construction" width="780" height="600">
+			<!-- <img src="ucimg.jpg" alt="Under construction" width="780" height="600"> -->
 		</p>
 	</body>
 </html>
