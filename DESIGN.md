@@ -9,6 +9,7 @@ http://bl.ocks.org/jose187/4733747
 #### Diagram:
 See github doc diagramsketch.jpeg
 https://github.com/rlieben/Eindproject/blob/master/doc/diagramsketch.JPG
+![]https://github.com/rlieben/Eindproject/blob/master/doc/diagramsketch.JPG
 
 #### Components:
 
