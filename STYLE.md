@@ -12,8 +12,14 @@ function likeThis()
 
 #### - multiline comments are done as /* --- */
 /*
+
+
 hello
-there 
+
+
+there
+
+
 */
 
 #### - for constants use 'const' instead of 'var'
