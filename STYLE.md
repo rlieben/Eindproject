@@ -13,20 +13,19 @@ function likeThis()
 #### - multiline comments are done as /* --- */
 /*
 
-
 hello
 
-
 there
-
 
 */
 
 #### - for constants use 'const' instead of 'var'
 // wrong
+
 var a = 3
 
 // right
+
 const a = 3
 
 #### - after a function { is on the same line
