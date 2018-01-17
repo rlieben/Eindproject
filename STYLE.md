@@ -24,6 +24,4 @@ var a = 3
 const a = 3
 
 #### - after a function { is on the same line
-function likeThis(){  \n
-    dosomething  \n
-}
+function likeThis(){  \ndosomething  \n}
