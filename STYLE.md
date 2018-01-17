@@ -4,7 +4,6 @@
 function likeThis()
 
 #### - tab is 4 spaces
-    likethis
     
 #### - no same line comments, only if really necessary
     
