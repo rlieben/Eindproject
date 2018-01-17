@@ -25,4 +25,5 @@ const a = 3
 
 #### - after a function { is on the same line
 function likeThis(){
+    dosomething
 }
