@@ -10,7 +10,7 @@ window.onload = function(){
 		.force("charge", d3.forceManyBody())
 		.force("center", d3.forceCenter(width / 2, height / 2));
 
-	d3.json("jsonifiedboth.json", function(error, graph) {
+	d3.json("jsonifiednonfrail.json", function(error, graph) {
 		if (error) throw error;
 
 		console.log(graph)
