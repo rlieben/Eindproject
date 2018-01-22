@@ -16,3 +16,9 @@ Heatmap day 3:
 Because of the code red - storm I lost a lot of time on my project. I will make up for this, this weekend. Therefore I was not able to have all visualizations for the deadline tomorrow morning. Nevertheless I will ensure, the time-loss will not be an issue for the project. 
 For the deadline, my network visualization is on the graph tab and my heatmap on the heatmap tab.
 
+# day 5
+Made a barchart for next to the graph with tooltip
+
+# day 6
+Implemented all graphs on 1 webpage. Worked on a rewriting the graphs to a function, and for an update function later on. Not yet finished. Created the dropdown for selecting dataset. Not functional yet.
+
