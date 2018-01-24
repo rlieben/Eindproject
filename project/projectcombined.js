@@ -47,7 +47,7 @@ window.onload = function(){
 	// creating tip on bar
 	var bartip = d3.tip()
 		.attr('class', 'd3-tip')
-		.offset([-10, 0])
+		.offset([20, 20])
 		.html(function(d) {
 			return "<strong>Average correlation strength:</strong> <span style='color:red'>" + d.avecorrstr + "</span>\n <strong>Node:</strong> <span style='color:red'>" + d.id + "</span>";
 	 });
@@ -161,6 +161,8 @@ window.onload = function(){
 			.enter().append("rect")
 			.attr("class", "bar")
 			.style("fill", function(d) { return colorgraph(d.group); })
+			.style("stroke", "white")
+			.style("stroke-width", "1px")
 			.attr("x", function(d) { return x(d.id); })
 			.attr("y", function(d) { return y(d.avecorrstr); })
 			.attr("width", x.bandwidth())
@@ -187,47 +189,6 @@ window.onload = function(){
 		d.fy = null;
 	}
 
-	// d3.json("jsonifiednonfrail.json", function(error, data) {
-
-	// 	var data2 = data.nodes
-
-	// 	console.log(data2)
-
-	// 	data2.forEach(function(d) {
-	// 		d.id = +d.id;
-	// 		d.avecorrstr = +d.avecorrstr;
-	// 	});
-
-	// 	x.domain(data2.map(function(d) { return d.id; }));
-	// 	y.domain([0, 0.25]);
-
-	// 	bar.append("g")
-	// 		.attr("class", "axis axis--x")
-	// 		.attr("transform", "translate(0," + bcheight + ")")
-	// 		.call(d3.axisBottom(x));
-
-	// 	bar.append("g")
-	// 		.attr("class", "axis axis--y")
-	// 		.call(d3.axisLeft(y).ticks(10, "%"))
-	// 		.append("text")
-	// 		.attr("transform", "rotate(-90)")
-	// 		.attr("y", 6)
-	// 		.attr("dy", "0.71em")
-	// 		.attr("text-anchor", "end")
-	// 		.text("Frequency");
-
-	// 	bar.selectAll(".bar")
-	// 		.data(data2)
-	// 		.enter().append("rect")
-	// 		.attr("class", "bar")
-	// 		.attr("x", function(d) { return x(d.id); })
-	// 		.attr("y", function(d) { return y(d.avecorrstr); })
-	// 		.attr("width", x.bandwidth())
-	// 		.attr("height", function(d) { return bcheight - y(d.id); })
-	// 		// showing and hiding tip
-	// 		.on('mouseover', bartip.show)
-	// 		.on('mouseout', bartip.hide);
-	// });
 
 	d3.tsv("heatmapnonfrail.tsv",
 		function(d) {
@@ -347,5 +308,103 @@ window.onload = function(){
 			.attr("y", hmheight + (cellSize * 3));
 
 	});
+
+	var sa=d3.select(".g3")
+      .on("mousedown", function() {
+          if( !d3.event.altKey) {
+             d3.selectAll(".cell-selected").classed("cell-selected",false);
+             d3.selectAll(".rowLabel").classed("text-selected",false);
+             d3.selectAll(".colLabel").classed("text-selected",false);
+          }
+         var p = d3.mouse(this);
+         sa.append("rect")
+         .attr({
+             rx      : 0,
+             ry      : 0,
+             class   : "selection",
+             x       : p[0],
+             y       : p[1],
+             width   : 1,
+             height  : 1
+         })
+      })
+      .on("mousemove", function() {
+         var s = sa.select("rect.selection");
+      
+         if(!s.empty()) {
+             var p = d3.mouse(this),
+                 d = {
+                     x       : parseInt(s.attr("x"), 10),
+                     y       : parseInt(s.attr("y"), 10),
+                     width   : parseInt(s.attr("width"), 10),
+                     height  : parseInt(s.attr("height"), 10)
+                 },
+                 move = {
+                     x : p[0] - d.x,
+                     y : p[1] - d.y
+                 }
+             ;
+      
+             if(move.x < 1 || (move.x*2<d.width)) {
+                 d.x = p[0];
+                 d.width -= move.x;
+             } else {
+                 d.width = move.x;       
+             }
+      
+             if(move.y < 1 || (move.y*2<d.height)) {
+                 d.y = p[1];
+                 d.height -= move.y;
+             } else {
+                 d.height = move.y;       
+             }
+             s.attr(d);
+      
+                 // deselect all temporary selected state objects
+             d3.selectAll('.cell-selection.cell-selected').classed("cell-selected", false);
+             d3.selectAll(".text-selection.text-selected").classed("text-selected",false);
+
+             d3.selectAll('.cell').filter(function(cell_d, i) {
+                 if(
+                     !d3.select(this).classed("cell-selected") && 
+                         // inner circle inside selection frame
+                     (this.x.baseVal.value)+cellSize >= d.x && (this.x.baseVal.value)<=d.x+d.width && 
+                     (this.y.baseVal.value)+cellSize >= d.y && (this.y.baseVal.value)<=d.y+d.height
+                 ) {
+      
+                     d3.select(this)
+                     .classed("cell-selection", true)
+                     .classed("cell-selected", true);
+
+                     d3.select(".r"+(cell_d.row-1))
+                     .classed("text-selection",true)
+                     .classed("text-selected",true);
+
+                     d3.select(".c"+(cell_d.col-1))
+                     .classed("text-selection",true)
+                     .classed("text-selected",true);
+                 }
+             });
+         }
+      })
+      .on("mouseup", function() {
+            // remove selection frame
+         sa.selectAll("rect.selection").remove();
+      
+             // remove temporary selection marker class
+         d3.selectAll('.cell-selection').classed("cell-selection", false);
+         d3.selectAll(".text-selection").classed("text-selection",false);
+      })
+      .on("mouseout", function() {
+         if(d3.event.relatedTarget.tagName=='html') {
+                 // remove selection frame
+             sa.selectAll("rect.selection").remove();
+                 // remove temporary selection marker class
+             d3.selectAll('.cell-selection').classed("cell-selection", false);
+             d3.selectAll(".rowLabel").classed("text-selected",false);
+             d3.selectAll(".colLabel").classed("text-selected",false);
+         }
+      })
+      ;
 
 };
