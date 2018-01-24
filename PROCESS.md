@@ -22,3 +22,5 @@ Made a barchart for next to the graph with tooltip
 # day 6
 Implemented all graphs on 1 webpage. Worked on a rewriting the graphs to a function, and for an update function later on. Not yet finished. Created the dropdown for selecting dataset. Not functional yet.
 
+# day 7
+Had some problems with the dropdown. Tried to consider making both graphs and using show and hide with the dropdown. However, that did not work properly yet. Forgot to commit to GitHub yesterday so did this first thing in the morning.
