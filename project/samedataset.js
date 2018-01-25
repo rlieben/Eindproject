@@ -344,7 +344,7 @@ window.onload = function(){
 			.attr("height", function(d) { return bcheight - y(d.id); })
 			.on("mouseover", function(d, i) {
 				d3.select("#tooltip")
-						.style("left", 200 + "px")
+						.style("left", bcwidth / 2 + "px")
 						.style("top", bcheight + graphheight + bcmargin.top + "px")
 						.select("#value")
 						.text("Average correlation strength:" + d.avecorrstr + "\n Node:"+ d.id + "\n Name:" + d.name);
@@ -400,10 +400,10 @@ window.onload = function(){
 					// .attr("fill", "Orchid")
 					.attr("r", 10)
 				d3.select("#tooltip")
-						.style("left", (d3.event.pageX+10) + "px")
-						.style("top", (d3.event.pageY-10) + "px")
+						.style("left", (bcwidth / 2) * 2 + bcmargin.gap + "px")
+						.style("top", bcheight + graphheight + bcmargin.top + "px")
 						.select("#value")
-						.text("<strong>Average correlation strength:</strong> <span style='color:red'>" + d.avecorrstr + "</span>\n <strong>Node:</strong> <span style='color:red'>" + d.id + "</span>\n <strong>Name:</strong> <span style='color:red'>" + d.name);
+						.text(("Average correlation strength:" + d.avecorrstr + "\n Node:"+ d.id + "\n Name:" + d.name));
 
 				//Show the tooltip
 					d3.select("#tooltip").classed("hidden", false);
