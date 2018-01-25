@@ -1,17 +1,28 @@
 window.onload = function(){
 
 	// margins network graph
-	var	graphmargin = {top: 100, bottom: 100, left: 50, right: 50},
+	var	graphmargin = {top: 100, bottom: 100, left: 50, right: 50, gap:50},
 		graphwidth = 500 + graphmargin.left + graphmargin.right,
 		graphheight = 300 + graphmargin.top + graphmargin.bottom;
 
-	// svg element network graph
-	var svggraphnonfrail = d3.select("body").append("svg")
+	// network svg
+	var svgnetwork = d3.select("body")
+		.append("svg")
+		.attr("id", "mainnwsvg")
+		.attr("height", graphheight)
+		.attr("width", graphwidth * 2 + graphmargin.gap)
+
+	// nonfrail network svg
+	var svggraphnonfrail = d3.select("svg#mainnwsvg").append("svg")
+		.attr("id", "svgnf")
 		.attr("width", graphwidth)
 		.attr("height", graphheight);
 
-	// svg element network graph
-	var svggraphfrail = d3.select("body").append("svg")
+	// frail network svg
+	var svggraphfrail = d3.select("svg#mainnwsvg").append("g") // group to move svg sideways
+	  .attr("transform", "translate(" + (graphwidth + graphmargin.gap) + ")")
+	  .append("svg")
+	  .attr("id", "svgf")
 		.attr("width", graphwidth)
 		.attr("height", graphheight);
 
@@ -30,24 +41,21 @@ window.onload = function(){
 		.force("charge", d3.forceManyBody())
 		.force("center", d3.forceCenter(graphwidth / 2, graphheight / 2));
 
-	// // creating tip on node
-	// var nodetip = d3.tip()
-	// 	.attr('class', 'd3-tip')
-	// 	.offset([-10, 0])
-	// 	.html(function(d) {
-	// 		return "<strong>Node:</strong> <span style='color:red'>" + d.id + "</span>";
-	//  });
-
-	// // call tip on node
-	// svggraph.call(nodetip);
-
 	// margins barchart
-	var bcmargin = {top: 20, right: 20, bottom: 30, left: 40},
+	var bcmargin = {top: 20, right: 20, bottom: 30, left: 40, gap: 50},
 		bcwidth = 500 + bcmargin.left + bcmargin.right,
 		bcheight = 300 + bcmargin.top + bcmargin.bottom;
 
+	// network svg
+	var svgbc = d3.select("body")
+		.append("svg")
+		.attr("id", "mainbcsvg")
+		.attr("height", bcheight)
+		.attr("width", bcwidth * 2 + bcmargin.gap);
+
 	// svg element barchart
-	var bcsvgnonfrail = d3.select("body").append("svg")
+	var bcsvgnonfrail = d3.select("svg#mainbcsvg").append("svg")
+		.attr("id", "svgbcnf")
 		.attr("width", bcwidth)
 		.attr("height", bcheight);
 
@@ -66,7 +74,10 @@ window.onload = function(){
  //    bcsvgnonfrail.call(checkBox3);
 
 	// svg element barchart
-	var bcsvgfrail = d3.select("body").append("svg")
+	var bcsvgfrail = d3.select("svg#mainbcsvg").append("g") // group to move svg sideways
+	  .attr("transform", "translate(" + (graphwidth + bcmargin.gap) + ")")
+	  .append("svg")
+	  .attr("id", "svgbcf")
 		.attr("width", bcwidth)
 		.attr("height", bcheight);
 
@@ -74,53 +85,66 @@ window.onload = function(){
 	var x = d3.scaleBand().rangeRound([0, bcwidth - bcmargin.right]).padding(0.01),
 		y = d3.scaleLinear().rangeRound([bcheight - bcmargin.bottom, 0]);
 
-	// creating tip on bar
-	var bartip = d3.tip()
-		.attr('class', 'd3-tip')
-		.offset([-10, 0])
-		.html(function(d) {
-			return "<strong>Average correlation strength:</strong> <span style='color:red'>" + d.avecorrstr + "</span>\n <strong>Node:</strong> <span style='color:red'>" + d.id + "</span>\n <strong>Name:</strong> <span style='color:red'>" + d.name;
-	 });
+	// // creating tip on bar
+	// var bartip = d3.tip()
+	// 	.attr('class', 'd3-tip')
+	// 	.offset([-10, 0])
+	// 	.html(function(d) {
+	// 		return "<strong>Average correlation strength:</strong> <span style='color:red'>" + d.avecorrstr + "</span>\n <strong>Node:</strong> <span style='color:red'>" + d.id + "</span>\n <strong>Name:</strong> <span style='color:red'>" + d.name;
+	//  });
 
 	// creating bar element
 	var barnonfrail = bcsvgnonfrail.append("g")
 		.attr("transform", "translate(" + bcmargin.left + "," + bcmargin.top + ")");
 
-	// calling tip onto bar
-	barnonfrail.call(bartip);
+	// // calling tip onto bar
+	// barnonfrail.call(bartip);
 
 	// creating bar element
 	var barfrail = bcsvgfrail.append("g")
 		.attr("transform", "translate(" + bcmargin.left + "," + bcmargin.top + ")");
 
-	// calling tip onto bar
-	barfrail.call(bartip);
+	// // calling tip onto bar
+	// barfrail.call(bartip);
 
 	
 
 	// variables heatmap
-	var hmmargin = { top: 150, right: 10, bottom: 50, left: 100 },
-	  	cellSize=5;
-	  	col_number=90;
-	  	row_number=90;
-	  	hmwidth = cellSize*col_number, // - margin.left - margin.right,
-	  	hmheight = cellSize*row_number , // - margin.top - margin.bottom,
-	  	//gridSize = Math.floor(width / 24),
-	  	legendElementWidth = cellSize*1.5,
-	  	colorBuckets = 11,
-	  	colors = ['#FFFFFF','#F1EEF6','#E6D3E1','#DBB9CD','#D19EB9','#C684A4','#BB6990','#B14F7C','#A63467','#9B1A53','#91003F'];
-	  	hcrow = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90], 
-	  	hccol = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90],
-	  	rowLabel = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10","11", "12", "13", "14", "15", "16", "17", "18", "19", "20","21", "22", "23", "24", "25", "26", "27", "28", "29", "30","31", "32", "33", "34", "35", "36", "37", "38", "39", "40",
-	  	"41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "90"],
-	  	colLabel = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10","11", "12", "13", "14", "15", "16", "17", "18", "19", "20","21", "22", "23", "24", "25", "26", "27", "28", "29", "30","31", "32", "33", "34", "35", "36", "37", "38", "39", "40",
+	var hmmargin = { top: 150, right: 10, bottom: 50, left: 100, gap:50},
+		cellSize = 5;
+		col_number = 90;
+		row_number = 90;
+		// hmwidth = cellSize * col_number + hmmargin.gap, // - margin.left - margin.right,
+		// hmheight = cellSize * row_number + hmmargin.top +hmmargin.bottom , // - margin.top - margin.bottom,
+		hmwidth = 500 + hmmargin.left + hmmargin.right,
+		hmheight = 500 + hmmargin.top + hmmargin.bottom;
+		//gridSize = Math.floor(width / 24),
+		legendElementWidth = cellSize*1.5,
+		colorBuckets = 11,
+		colors = ['#FFFFFF','#F1EEF6','#E6D3E1','#DBB9CD','#D19EB9','#C684A4','#BB6990','#B14F7C','#A63467','#9B1A53','#91003F'];
+		hcrow = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90], 
+		hccol = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47,48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90],
+		rowLabel = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10","11", "12", "13", "14", "15", "16", "17", "18", "19", "20","21", "22", "23", "24", "25", "26", "27", "28", "29", "30","31", "32", "33", "34", "35", "36", "37", "38", "39", "40",
+		"41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "90"],
+		colLabel = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10","11", "12", "13", "14", "15", "16", "17", "18", "19", "20","21", "22", "23", "24", "25", "26", "27", "28", "29", "30","31", "32", "33", "34", "35", "36", "37", "38", "39", "40",
 		"41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "90"];
+
+	// network svg
+	var svghm = d3.select("body")
+		.append("svg")
+		.attr("id", "mainhmsvg")
+		.attr("height", hmheight)
+		.attr("width", hmwidth * 2 + hmmargin.gap)
 
 	// create queue
 	queue()
 	.defer(d3.json, 'jsonifiednonfrail.json')
 	.defer(d3.json, 'jsonifiedfrail.json')
 	.await(updateGraph);
+
+	// d3.select("#order").on("change",function(){
+ //    	selectData(this.value);
+ // 	});
 
 
 	function updateGraph(error, jsonifiedfrail, jsonifiednonfrail){
@@ -130,10 +154,6 @@ window.onload = function(){
 		makeNetwork(jsonifiednonfrail, jsonifiedfrail);
 		// makeHeatmap(heatmapnonfrail, heatmapfrail)
 	}
-
-	// d3.select("#order").on("change",function(){
- //    	selectData(this.value);
- // 	});
 
 	// loadin network data
 	function makeNetwork(graphdatanonfrail, graphdatafrail){
@@ -170,11 +190,30 @@ window.onload = function(){
 				.on("end", dragended));
 
 				// title of node
-		nodenonfrail.append("title")
-			.text(function(d) { return d.id; });
-			// .on("click", function(d) { mouseClick(d.id); }); // define mouseClick function
-			// .on('mouseover', nodetip.show)
-			// .on('mouseout', nodetip.hide);
+		// nodenonfrail.append("title")
+		// 	.text(function(d) { return d.id + d.name; });
+		nodenonfrail.on("mouseover", function(d, i) {
+				console.log(i + 1)
+				console.log(d)
+				d3.selectAll("circle" + i)
+					// .attr("fill", "Orchid")
+					.attr("r", 10)
+				d3.select("#tooltip")
+						.style("left", (d3.event.pageX+10) + "px")
+						.style("top", (d3.event.pageY-10) + "px")
+						.select("#value")
+						.text("Node:"+d.id+"\n\n Name:"+d.name);
+
+				//Show the tooltip
+					d3.select("#tooltip").classed("hidden", false);
+					
+				})
+			.on("mouseout", function(){
+				   // d3.select(this).classed("cell-hover",false);
+				   // d3.selectAll(".rowLabel").classed("text-highlight",false);
+				   // d3.selectAll(".colLabel").classed("text-highlight",false);
+				   d3.select("#tooltip").classed("hidden", true);
+				})
 
 		simulationnonfrail
 			.nodes(graphdatanonfrail.nodes)
@@ -211,13 +250,37 @@ window.onload = function(){
 			.enter().append("circle")
 			.attr("r", 5)
 			.attr("fill", function(d) { return colorgraph(d.group); })
-			.call(d3.drag()
-				.on("start", dragstarted)
-				.on("drag", dragged)
-				.on("end", dragended));
+			// .call(d3.drag()
+			// 	.on("start", dragstarted)
+			// 	.on("drag", dragged)
+			// 	.on("end", dragended))
 
-		nodefrail.append("title")
-			.text(function(d) { return d.id; });
+		// nodefrail.append("title")
+		// 	.text(function(d) { return d.id; });
+
+		nodefrail.on("mouseover", function(d, i) {
+				console.log(i + 1)
+				console.log(d)
+				d3.selectAll("circle" + i)
+					// .attr("fill", "Orchid")
+					.attr("r", 10)
+				d3.select("#tooltip")
+						.style("left", (d3.event.pageX+10) + "px")
+						.style("top", (d3.event.pageY-10) + "px")
+						.select("#value")
+						.text("Node:"+d.id+"\n\n Name:"+d.name);
+
+				//Show the tooltip
+					d3.select("#tooltip").classed("hidden", false);
+					
+				})
+			.on("mouseout", function(){
+				   // d3.select(this).classed("cell-hover",false);
+				   // d3.selectAll(".rowLabel").classed("text-highlight",false);
+				   // d3.selectAll(".colLabel").classed("text-highlight",false);
+				   d3.select("#tooltip").classed("hidden", true);
+					
+			});;
 
 		simulationfrail
 			.nodes(graphdatafrail.nodes)
@@ -279,9 +342,24 @@ window.onload = function(){
 			.attr("y", function(d) { return y(d.avecorrstr); })
 			.attr("width", x.bandwidth())
 			.attr("height", function(d) { return bcheight - y(d.id); })
-			// showing and hiding tip
-			.on('mouseover', bartip.show)
-			.on('mouseout', bartip.hide);
+			.on("mouseover", function(d, i) {
+				d3.select("#tooltip")
+						.style("left", 200 + "px")
+						.style("top", bcheight + graphheight + bcmargin.top + "px")
+						.select("#value")
+						.text("Average correlation strength:" + d.avecorrstr + "\n Node:"+ d.id + "\n Name:" + d.name);
+
+				//Show the tooltip
+					d3.select("#tooltip").classed("hidden", false);
+					
+				})
+			.on("mouseout", function(){
+				   // d3.select(this).classed("cell-hover",false);
+				   // d3.selectAll(".rowLabel").classed("text-highlight",false);
+				   // d3.selectAll(".colLabel").classed("text-highlight",false);
+				   d3.select("#tooltip").classed("hidden", true);
+					
+			});;
 
 		// setting domain
 		x.domain(nodedatafrail.map(function(d) { return d.id; }));
@@ -302,6 +380,7 @@ window.onload = function(){
 			.attr("text-anchor", "end")
 			.text("Correlation");
 
+			
 		barfrail.selectAll(".bar")
 			.data(nodedatafrail)
 			.enter().append("rect")
@@ -314,26 +393,95 @@ window.onload = function(){
 			.attr("width", x.bandwidth())
 			.attr("height", function(d) { return bcheight - y(d.id); })
 			// showing and hiding tip
-			.on('mouseover', bartip.show)
-			.on('mouseout', bartip.hide);
+			.on("mouseover", function(d, i) {
+				console.log(i + 1)
+				console.log(d)
+				d3.selectAll("circle" + i)
+					// .attr("fill", "Orchid")
+					.attr("r", 10)
+				d3.select("#tooltip")
+						.style("left", (d3.event.pageX+10) + "px")
+						.style("top", (d3.event.pageY-10) + "px")
+						.select("#value")
+						.text("<strong>Average correlation strength:</strong> <span style='color:red'>" + d.avecorrstr + "</span>\n <strong>Node:</strong> <span style='color:red'>" + d.id + "</span>\n <strong>Name:</strong> <span style='color:red'>" + d.name);
 
-			// function makeHeatmap(heatmapnonfrail, heatmapfrail){
-		
-		
-	// 	heatmapnonfrail.forEach(function(d) {
-	// 		d.row_idx = +d.row_idx;
-	// 		d.col_idx = +d.col_idx;
-	// 		d.log2ratio = +d.log2ratio;
-	// 	});
+				//Show the tooltip
+					d3.select("#tooltip").classed("hidden", false);
+					
+				})
+			.on("mouseout", function(){
+				   // d3.select(this).classed("cell-hover",false);
+				   // d3.selectAll(".rowLabel").classed("text-highlight",false);
+				   // d3.selectAll(".colLabel").classed("text-highlight",false);
+				   d3.select("#tooltip").classed("hidden", true);
+					
+			});;
 
-		// heatmapfrail.forEach(function(d) {
-		// 	d.row_idx = +d.row_idx;
-		// 	d.col_idx = +d.col_idx;
-		// 	d.log2ratio = +d.log2ratio;
-		// });
 
-		// console.log(heatmapfrail)
-		// console.log(heatmapnonfrail)
+		d3.select("input").on("change", change);
+	      function change() {
+
+	        var x0 = x.domain(nodedatanonfrail.sort(this.checked ?
+	              function(a, b) {
+	                return b.group - a.group;
+	              } :
+	              function(a, b) {
+	                return d3.ascending(a.name, b.name);
+	              })
+	            .map(function(d) {
+	              return d.name;
+	            }))
+	          .copy();
+	        bcsvgnonfrail.selectAll(".bar")
+	          .sort(function(a, b) {
+	            return x0(a.name) - x0(b.name);
+	          });
+	        var transition1 = bcsvgnonfrail.transition().duration(50),
+	          delay = function(d, i) {
+	            return i * 50;
+	          };
+	        transition1.selectAll(".bar")
+	          .delay(delay)
+	          .attr("x", function(d) {
+	            return x0(d.name);
+	          });
+	        transition1.select(".x.axis") //selects the x-axis
+	          // .call(xAxis)
+	          .selectAll("g")
+	          .delay(delay);
+
+
+	          var x1 = x.domain(nodedatafrail.sort(this.checked ?
+	              function(a, b) {
+	                return b.group - a.group;
+	              } :
+	              function(a, b) {
+	                return d3.ascending(a.name, b.name);
+	              })
+	            .map(function(d) {
+	              return d.name;
+	            }))
+	          .copy();
+	        bcsvgfrail.selectAll(".bar")
+	          .sort(function(a, b) {
+	            return x1(a.name) - x1(b.name);
+	          });
+	        var transition2 = bcsvgfrail.transition().duration(50),
+	          delay = function(d, i) {
+	            return i * 50;
+	          };
+	        transition2.selectAll(".bar")
+	          .delay(delay)
+	          .attr("x", function(d) {
+	            return x1(d.name);
+	          });
+	        transition2.select(".x.axis") //selects the x-axis
+	          // .call(xAxis)
+	          .selectAll("g")
+	          .delay(delay);
+	      }
+
+		// here starts the heatmap
 
 		linkdatanonfrail.forEach(function(d) {
 			d.value = +d.value;
@@ -347,12 +495,11 @@ window.onload = function(){
 		var colorScale = d3.scale.quantile()
 			.domain([0, 1])
 			.range(colors);
-
-
 		  
-		var hmsvgnonfrail = d3.select("body").append("svg")
-			.attr("width", hmwidth + hmmargin.left + hmmargin.right)
-			.attr("height", hmheight + hmmargin.top + hmmargin.bottom)
+		var hmsvgnonfrail = d3.select("svg#mainhmsvg").append("svg")
+			.attr("id", "svghmnf")
+			.attr("width", hmwidth)
+			.attr("height", hmheight)
 			.append("g")
 			.attr("transform", "translate(" + hmmargin.left + "," + hmmargin.top + ")");
 
@@ -401,7 +548,7 @@ window.onload = function(){
 			.attr("width", cellSize)
 			.attr("height", cellSize)
 			.style("fill", function(d) { return colorScale(d.value); })
-				 .on("click", function(d) {
+				.on("click", function(d) {
 					   var rowtext=d3.select(".r"+(d.target.id-1));
 					   if(rowtext.classed("text-selected")==false){
 						   rowtext.classed("text-selected",true);
@@ -425,6 +572,7 @@ window.onload = function(){
 					
 					//Show the tooltip
 					d3.select("#tooltip").classed("hidden", false);
+					
 				})
 				.on("mouseout", function(){
 					   d3.select(this).classed("cell-hover",false);
@@ -432,6 +580,46 @@ window.onload = function(){
 					   d3.selectAll(".colLabel").classed("text-highlight",false);
 					   d3.select("#tooltip").classed("hidden", true);
 				});
+
+		function showTooltip(d){
+
+			console.log("in functie")
+			console.log(d)
+
+			heatMap1.select("#tooltip")
+					.style("left", (d3.event.pageX+10) + "px")
+					.style("top", (d3.event.pageY-10) + "px")
+					.select("#value")
+					.text("Node connection:"+rowLabel[d.target.id - 1]+","+colLabel[d.source.id - 1]+"\n Data:"+d.value) 
+				
+					//Show the tooltip
+					.select("#tooltip").classed("hidden", false)
+			// data(linkdatanonfrail,function(d){return d.target.id+":"+d.source.id;})
+				// // .select(this).classed("cell-hover",true)
+				// .selectAll(".rowLabel").classed("text-highlight",function(r,ri){ return ri == (d.target.id - 1);})
+				// .selectAll(".colLabel").classed("text-highlight",function(c,ci){ return ci == (d.source.id - 1);})
+			
+				//Update the tooltip position and value
+				
+				
+
+			heatMap2.data(linkdatanonfrail,function(d){return d.target.id+":"+d.source.id;})
+				.on("mouseover", function(d){
+					d3.select(this).classed("cell-hover",true);
+					d3.selectAll(".rowLabel").classed("text-highlight",function(r,ri){ return ri == (d.target.id - 1);});
+					d3.selectAll(".colLabel").classed("text-highlight",function(c,ci){ return ci == (d.source.id - 1);});
+				
+					//Update the tooltip position and value
+					d3.select("#tooltip")
+						.style("left", (d3.event.pageX+10) + "px")
+						.style("top", (d3.event.pageY-10) + "px")
+						.select("#value")
+						.text("Node connection:"+rowLabel[d.target.id-1]+","+colLabel[d.source.id-1]+"\n Data:"+d.value);  
+					
+					//Show the tooltip
+					d3.select("#tooltip").classed("hidden", false);
+				})
+		};
 
 		var legend = hmsvgnonfrail.selectAll(".legend")
 			.data([0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1])
@@ -452,8 +640,12 @@ window.onload = function(){
 			.attr("width", legendElementWidth + (legendElementWidth / 2))
 			.attr("x", function(d, i) { return legendElementWidth * i * 2; })
 			.attr("y", hmheight + (cellSize * 3));
-		  
-		var hmsvgfrail = d3.select("body").append("svg")
+		
+
+		var hmsvgfrail = d3.select("svg#mainhmsvg").append("g") // group to move svg sideways
+			.attr("transform", "translate(" + (hmwidth + hmmargin.gap) + ")")
+			.append("svg")
+			.attr("id", "svghmf")
 			.attr("width", hmwidth + hmmargin.left + hmmargin.right)
 			.attr("height", hmheight + hmmargin.top + hmmargin.bottom)
 			.append("g")
@@ -555,10 +747,78 @@ window.onload = function(){
 			.attr("width", legendElementWidth + (legendElementWidth / 2))
 			.attr("x", function(d, i) { return legendElementWidth * i * 2; })
 			.attr("y", hmheight + (cellSize * 3));
+
+	function sortbylabel(rORc,i,sortOrder){
+       var t = hmsvgnonfrail.transition().duration(3000);
+       var value=[];
+       var sorted; // sorted is zero-based index
+       d3.selectAll(".c"+rORc+i) 
+         .filter(function(ce){
+            value.push(ce.value);
+          })
+       ;
+       if(rORc=="r"){ // sort log2ratio of a gene
+         sorted=d3.range(col_number).sort(function(a,b){ if(sortOrder){ return value[b]-value[a];}else{ return value[a]-value[b];}});
+         t.selectAll(".cell")
+           .attr("x", function(d) { return sorted.indexOf(d.source.id-1) * cellSize; })
+           ;
+         t.selectAll(".colLabel")
+          .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize; })
+         ;
+       }else{ // sort log2ratio of a contrast
+         sorted=d3.range(row_number).sort(function(a,b){if(sortOrder){ return id[b]-id[a];}else{ return id[a]-id[b];}});
+         t.selectAll(".cell")
+           .attr("y", function(d) { return sorted.indexOf(d.target.id-1) * cellSize; })
+           ;
+         t.selectAll(".rowLabel")
+          .attr("y", function (d, i) { return sorted.indexOf(i) * cellSize; })
+         ;
+       }
+  }
+
+  d3.select("#order").on("change",function(){
+    order(this.value);
+  });
+
+  function order(value){
+   if(value=="module"){
+    var t = hmsvgnonfrail.transition().duration(3000);
+    t.selectAll(".cell")
+      .attr("x", function(d) { return hccol.indexOf(d.source.id) * cellSize; })
+      .attr("y", function(d) { return hcrow.indexOf(d.target.id) * cellSize; })
+      ;
+
+    t.selectAll(".rowLabel")
+      .attr("y", function (d, i) { return hcrow.indexOf(i+1) * cellSize; })
+      ;
+
+    t.selectAll(".colLabel")
+      .attr("y", function (d, i) { return hccol.indexOf(i+1) * cellSize; })
+      ;
+
+   }else{
+    var t = hmsvgnonfrail.transition().duration(3000);
+    t.selectAll(".cell")
+      .attr("x", function(d) { return (d.source.id - 1) * cellSize; })
+      .attr("y", function(d) { return (d.target.id - 1) * cellSize; })
+      ;
+
+    t.selectAll(".rowLabel")
+      .attr("y", function (d, i) { return i * cellSize; })
+      ;
+
+    t.selectAll(".colLabel")
+      .attr("y", function (d, i) { return i * cellSize; })
+      ;
+  }
+}
 	};
 
 	function dragstarted(d) {
-		if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+		if (!d3.event.active) simulationnonfrail.alphaTarget(0.3).restart();
+		d.fx = d.x;
+		d.fy = d.y;
+		if (!d3.event.active) simulationfrail.alphaTarget(0.3).restart();
 		d.fx = d.x;
 		d.fy = d.y;
 	}
@@ -569,122 +829,126 @@ window.onload = function(){
 	}
 
 	function dragended(d) {
-		if (!d3.event.active) simulation.alphaTarget(0);
+		if (!d3.event.active) simulationnonfrail.alphaTarget(0);
+		d.fx = null;
+		d.fy = null;
+		if (!d3.event.active) simulationfrail.alphaTarget(0);
 		d.fx = null;
 		d.fy = null;
 	}
 
-	function d3CheckBox () {
 
-    var size = 20,
-        x = 0,
-        y = 0,
-        rx = 0,
-        ry = 0,
-        markStrokeWidth = 3,
-        boxStrokeWidth = 3,
-        checked = false,
-        clickEvent;
+	// function d3CheckBox () {
 
-    function checkBox (selection) {
+ //    var size = 20,
+ //        x = 0,
+ //        y = 0,
+ //        rx = 0,
+ //        ry = 0,
+ //        markStrokeWidth = 3,
+ //        boxStrokeWidth = 3,
+ //        checked = false,
+ //        clickEvent;
 
-        var g = selection.append("g"),
-            box = g.append("rect")
-            .attr("width", size)
-            .attr("height", size)
-            .attr("x", x)
-            .attr("y", y)
-            .attr("rx", rx)
-            .attr("ry", ry)
-            .style({
-                "fill-opacity": 0,
-                "stroke-width": boxStrokeWidth,
-                "stroke": "black"
-            });
+	// function checkBox (selection) {
 
-        //Data to represent the check mark
-        var coordinates = [
-            {x: x + (size / 8), y: y + (size / 3)},
-            {x: x + (size / 2.2), y: (y + size) - (size / 4)},
-            {x: (x + size) - (size / 8), y: (y + (size / 10))}
-        ];
+	//     var g = selection.append("g"),
+	//         box = g.append("rect")
+	//         .attr("width", size)
+	//         .attr("height", size)
+	//         .attr("x", x)
+	//         .attr("y", y)
+	//         .attr("rx", rx)
+	//         .attr("ry", ry)
+	//         .style({
+	//             "fill-opacity": 0,
+	//             "stroke-width": boxStrokeWidth,
+	//             "stroke": "black"
+	//         });
 
-        var line = d3.svg.line()
-                .x(function(d){ return d.x; })
-                .y(function(d){ return d.y; })
-                .interpolate("basic");
+	//     //Data to represent the check mark
+	//     var coordinates = [
+	//         {x: x + (size / 8), y: y + (size / 3)},
+	//         {x: x + (size / 2.2), y: (y + size) - (size / 4)},
+	//         {x: (x + size) - (size / 8), y: (y + (size / 10))}
+	//     ];
 
-        var mark = g.append("path")
-            .attr("d", line(coordinates))
-            .style({
-                "stroke-width" : markStrokeWidth,
-                "stroke" : "black",
-                "fill" : "none",
-                "opacity": (checked)? 1 : 0
-            });
+	//     var line = d3.svg.line()
+	//             .x(function(d){ return d.x; })
+	//             .y(function(d){ return d.y; })
+	//             .interpolate("basic");
 
-        g.on("click", function () {
-            checked = !checked;
-            mark.style("opacity", (checked)? 1 : 0);
+	//     var mark = g.append("path")
+	//         .attr("d", line(coordinates))
+	//         .style({
+	//             "stroke-width" : markStrokeWidth,
+	//             "stroke" : "black",
+	//             "fill" : "none",
+	//             "opacity": (checked)? 1 : 0
+	//         });
 
-            if(clickEvent)
-                clickEvent();
+	//     g.on("click", function () {
+	//         checked = !checked;
+	//         mark.style("opacity", (checked)? 1 : 0);
 
-            d3.event.stopPropagation();
-        });
+	//         if(clickEvent)
+	//             clickEvent();
 
-    }
+	//         d3.event.stopPropagation();
+	//     });
 
-    checkBox.size = function (val) {
-        size = val;
-        return checkBox;
-    }
+	// }
 
-    checkBox.x = function (val) {
-        x = val;
-        return checkBox;
-    }
+//     checkBox.size = function (val) {
+//         size = val;
+//         return checkBox;
+//     }
 
-    checkBox.y = function (val) {
-        y = val;
-        return checkBox;
-    }
+//     checkBox.x = function (val) {
+//         x = val;
+//         return checkBox;
+//     }
 
-    checkBox.rx = function (val) {
-        rx = val;
-        return checkBox;
-    }
+//     checkBox.y = function (val) {
+//         y = val;
+//         return checkBox;
+//     }
 
-    checkBox.ry = function (val) {
-        ry = val;
-        return checkBox;
-    }
+//     checkBox.rx = function (val) {
+//         rx = val;
+//         return checkBox;
+//     }
 
-    checkBox.markStrokeWidth = function (val) {
-        markStrokeWidth = val;
-        return checkBox;
-    }
+//     checkBox.ry = function (val) {
+//         ry = val;
+//         return checkBox;
+//     }
 
-    checkBox.boxStrokeWidth = function (val) {
-        boxStrokeWidth = val;
-        return checkBox;
-    }
+//     checkBox.markStrokeWidth = function (val) {
+//         markStrokeWidth = val;
+//         return checkBox;
+//     }
 
-    checkBox.checked = function (val) {
+//     checkBox.boxStrokeWidth = function (val) {
+//         boxStrokeWidth = val;
+//         return checkBox;
+//     }
 
-        if(val === undefined) {
-            return checked;
-        } else {
-            checked = val;
-            return checkBox;
-        }
-    }
+//     checkBox.checked = function (val) {
 
-    checkBox.clickEvent = function (val) {
-        clickEvent = val;
-        return checkBox;
-    }
+//         if(val === undefined) {
+//             return checked;
+//         } else {
+//             checked = val;
+//             return checkBox;
+//         }
+//     }
 
-    return checkBox;
-}
+//     checkBox.clickEvent = function (val) {
+//         clickEvent = val;
+//         return checkBox;
+//     }
+
+//     return checkBox;
+// }
 };
