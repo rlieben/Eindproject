@@ -27,3 +27,7 @@ Had some problems with the dropdown. Tried to consider making both graphs and us
 
 # day 8
 The dropdown did not work for both datasets, that is why I chose to show both graphs simultaneously. In hindsight, I should've chosen this option earlier, because it is actually better to compare the two datasets next to eachother. Forgot again to commit to GitHub yesterday, so did this first thing in the morning.
+
+# day 9
+The option to sort the barchart data works. I also appended both datasets to the same svg for barchart, network and heatmap.
+The interactivity does not entirely work yet and the dropdown for sorting the heatmap in a different way does also not entirely work. The checkbox and dropdown also have to be placed somewhere else.
