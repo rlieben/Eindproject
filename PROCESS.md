@@ -24,3 +24,6 @@ Implemented all graphs on 1 webpage. Worked on a rewriting the graphs to a funct
 
 # day 7
 Had some problems with the dropdown. Tried to consider making both graphs and using show and hide with the dropdown. However, that did not work properly yet. Forgot to commit to GitHub yesterday so did this first thing in the morning.
+
+# day 8
+The dropdown did not work for both datasets, that is why I chose to show both graphs simultaneously. In hindsight, I should've chosen this option earlier, because it is actually better to compare the two datasets next to eachother. Forgot again to commit to GitHub yesterday, so did this first thing in the morning.
