@@ -31,3 +31,9 @@ The dropdown did not work for both datasets, that is why I chose to show both gr
 # day 9
 The option to sort the barchart data works. I also appended both datasets to the same svg for barchart, network and heatmap.
 The interactivity does not entirely work yet and the dropdown for sorting the heatmap in a different way does also not entirely work. The checkbox and dropdown also have to be placed somewhere else.
+
+# day 10
+Presentations and cleaned some code
+
+# day 11 and day 12
+These two days, I have implemented the interactivity, rewrote my code to seperate functions and worked on the html page. Also rearranging the svg's and appending them to the html using bootstrap.
