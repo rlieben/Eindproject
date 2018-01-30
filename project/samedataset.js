@@ -27,7 +27,7 @@ window.onload = function(){
 		.attr("height", graphheight);
 
 	// color scheme network graph
-	var colorgraph = d3.scaleOrdinal(d3.schemeCategory20);
+	var colorgraph = d3.scaleOrdinal(d3.schemeCategory10);
 
 	// simulation for force in nonfrail network
 	var simulationnonfrail = d3.forceSimulation()
@@ -81,33 +81,13 @@ window.onload = function(){
 		.attr("width", bcwidth)
 		.attr("height", bcheight);
 
-	// setting x and y for barchart
-	var x = d3.scaleBand().rangeRound([0, bcwidth - bcmargin.right]).padding(0.01),
-		y = d3.scaleLinear().rangeRound([bcheight - bcmargin.bottom, 0]);
-
-	// // creating tip on bar
-	// var bartip = d3.tip()
-	// 	.attr('class', 'd3-tip')
-	// 	.offset([-10, 0])
-	// 	.html(function(d) {
-	// 		return "<strong>Average correlation strength:</strong> <span style='color:red'>" + d.avecorrstr + "</span>\n <strong>Node:</strong> <span style='color:red'>" + d.id + "</span>\n <strong>Name:</strong> <span style='color:red'>" + d.name;
-	//  });
-
 	// creating bar element
 	var barnonfrail = bcsvgnonfrail.append("g")
 		.attr("transform", "translate(" + bcmargin.left + "," + bcmargin.top + ")");
 
-	// // calling tip onto bar
-	// barnonfrail.call(bartip);
-
 	// creating bar element
 	var barfrail = bcsvgfrail.append("g")
-		.attr("transform", "translate(" + bcmargin.left + "," + bcmargin.top + ")");
-
-	// // calling tip onto bar
-	// barfrail.call(bartip);
-
-	
+		.attr("transform", "translate(" + bcmargin.left + "," + bcmargin.top + ")");	
 
 	// variables heatmap
 	var hmmargin = { top: 150, right: 10, bottom: 50, left: 100, gap:50},
@@ -149,11 +129,12 @@ window.onload = function(){
 
 	function updateGraph(error, jsonifiedfrail, jsonifiednonfrail){
 		if (error) throw error;
-		console.log(jsonifiednonfrail);
-		console.log(jsonifiedfrail);
+		// console.log(jsonifiednonfrail);
+		// console.log(jsonifiedfrail);
 		makeNetwork(jsonifiednonfrail, jsonifiedfrail);
 		// makeHeatmap(heatmapnonfrail, heatmapfrail)
 	}
+
 
 	// loadin network data
 	function makeNetwork(graphdatanonfrail, graphdatafrail){
@@ -166,6 +147,7 @@ window.onload = function(){
 		linkdatafrail = graphdatafrail.links
 		nodedatanonfrail = graphdatanonfrail.nodes
 		nodedatafrail = graphdatafrail.nodes
+
 
 		// creating links of non frail graph
 		var linknonfrail = svggraphnonfrail.append("g")
@@ -181,39 +163,37 @@ window.onload = function(){
 			.attr("class", "nodes")
 			.selectAll("circle")
 			.data(graphdatanonfrail.nodes)
-			.enter().append("circle")
-			.attr("r", 5)
+			.enter().append("circle").attr("id", function(d){ return "svgnf" + d.id.toString()})
+			.attr("r", "5px")
 			.attr("fill", function(d) { return colorgraph(d.group); })
 			.call(d3.drag()
 				.on("start", dragstarted)
 				.on("drag", dragged)
 				.on("end", dragended));
 
-				// title of node
-		// nodenonfrail.append("title")
-		// 	.text(function(d) { return d.id + d.name; });
+		// adding tooltip on mouseover and selection of clicked element
 		nodenonfrail.on("mouseover", function(d, i) {
-				console.log(i + 1)
-				console.log(d)
-				d3.selectAll("circle" + i)
-					// .attr("fill", "Orchid")
-					.attr("r", 10)
-				d3.select("#tooltip")
-						.style("left", (d3.event.pageX+10) + "px")
-						.style("top", (d3.event.pageY-10) + "px")
-						.select("#value")
-						.text("Node:"+d.id+"\n\n Name:"+d.name);
 
-				//Show the tooltip
-					d3.select("#tooltip").classed("hidden", false);
-					
-				})
+			d3.select("#tooltip")
+				.style("left", (d3.event.pageX+10) + "px")
+				.style("top", (d3.event.pageY-10) + "px")
+				.select("#value")
+				.text("Node:"+d.id+"\n\n Name:"+d.name);
+
+				d3.select("#tooltip").classed("hidden", false);	
+			})
 			.on("mouseout", function(){
-				   // d3.select(this).classed("cell-hover",false);
-				   // d3.selectAll(".rowLabel").classed("text-highlight",false);
-				   // d3.selectAll(".colLabel").classed("text-highlight",false);
-				   d3.select("#tooltip").classed("hidden", true);
+
+					d3.select("#tooltip").classed("hidden", true);
 				})
+			.on("click", function(d){
+
+				clickLinkactivate(d.id);
+			})
+			.on("dblclick", function(d){
+				
+				clickLinkdeactivate(d.id);
+			});
 
 		simulationnonfrail
 			.nodes(graphdatanonfrail.nodes)
@@ -223,6 +203,7 @@ window.onload = function(){
 			.links(graphdatanonfrail.links);
 
 		function tickednonfrail() {
+
 			linknonfrail
 				.attr("x1", function(d) { return d.source.x; })
 				.attr("y1", function(d) { return d.source.y; })
@@ -247,40 +228,38 @@ window.onload = function(){
 			.attr("class", "nodes")
 			.selectAll("circle")
 			.data(graphdatafrail.nodes)
-			.enter().append("circle")
+			.enter().append("circle").attr("id", function(d){ return "svgf" + d.id.toString()})
 			.attr("r", 5)
 			.attr("fill", function(d) { return colorgraph(d.group); })
-			// .call(d3.drag()
-			// 	.on("start", dragstarted)
-			// 	.on("drag", dragged)
-			// 	.on("end", dragended))
+			.call(d3.drag()
+				.on("start", dragstarted)
+				.on("drag", dragged)
+				.on("end", dragended))
 
-		// nodefrail.append("title")
-		// 	.text(function(d) { return d.id; });
-
+		// adding tooltip on mouseover and selection of clicked element
 		nodefrail.on("mouseover", function(d, i) {
-				console.log(i + 1)
-				console.log(d)
-				d3.selectAll("circle" + i)
-					// .attr("fill", "Orchid")
-					.attr("r", 10)
-				d3.select("#tooltip")
-						.style("left", (d3.event.pageX+10) + "px")
-						.style("top", (d3.event.pageY-10) + "px")
-						.select("#value")
-						.text("Node:"+d.id+"\n\n Name:"+d.name);
+			
+			d3.select("#tooltip")
+				.style("left", (d3.event.pageX+10) + "px")
+				.style("top", (d3.event.pageY-10) + "px")
+				.select("#value")
+				.text("Node:"+d.id+"\n\n Name:"+d.name);
 
-				//Show the tooltip
-					d3.select("#tooltip").classed("hidden", false);
+			d3.select("#tooltip").classed("hidden", false);
 					
-				})
+			})
 			.on("mouseout", function(){
-				   // d3.select(this).classed("cell-hover",false);
-				   // d3.selectAll(".rowLabel").classed("text-highlight",false);
-				   // d3.selectAll(".colLabel").classed("text-highlight",false);
-				   d3.select("#tooltip").classed("hidden", true);
-					
-			});;
+				
+				d3.select("#tooltip").classed("hidden", true);		
+			})
+			.on("click", function(d){
+				
+				clickLinkactivate(d.id);
+			})
+			.on("dblclick", function(d){
+			
+				clickLinkdeactivate(d.id);
+			});
 
 		simulationfrail
 			.nodes(graphdatafrail.nodes)
@@ -290,6 +269,7 @@ window.onload = function(){
 			.links(graphdatafrail.links);
 
 		function tickedfrail(){
+
 			linkfrail
 				.attr("x1", function(d) { return d.source.x; })
 				.attr("y1", function(d) { return d.source.y; })
@@ -301,29 +281,36 @@ window.onload = function(){
 				.attr("cy", function(d) { return d.y; });
 		};
 
-		// make integers of the data
-		nodedatanonfrail.forEach(function(d) {
-			d.id = +d.id;
-			d.avecorrstr = +d.avecorrstr;
-		});
+		// // make integers of the data
+		// nodedatanonfrail.forEach(function(d) {
+		// 	d.id = +d.id;
+		// 	d.avecorrstr = +d.avecorrstr;
+		// });
 
-		nodedatafrail.forEach(function(d) {
-			d.id = +d.id;
-			d.avecorrstr = +d.avecorrstr;
-		});
+		// nodedatafrail.forEach(function(d) {
+		// 	d.id = +d.id;
+		// 	d.avecorrstr = +d.avecorrstr;
+		// });
 
 		// setting domain
-		x.domain(nodedatanonfrail.map(function(d) { return d.id; }));
-		y.domain([0, d3.max(nodedatanonfrail, function(d) { return d.avecorrstr; })]);
+		var x = d3.scaleBand().rangeRound([0, bcwidth - bcmargin.right]).padding(0.01)
+			.domain(nodedatanonfrail.map(function(d) { return d.id; }));
+		var y = d3.scaleLinear().rangeRound([bcheight - bcmargin.bottom, 0])
+			.domain([0, d3.max(nodedatanonfrail, function(d) { return d.avecorrstr; })]);
 
 		barnonfrail.append("g")
 			.attr("class", "axis axis--x")
 			.attr("transform", "translate(0," + bcheight + ")")
-			.call(d3.axisBottom(x));
+			.call(d3.axisBottom(x))
+			.selectAll("text")
+			    .style("text-anchor", "end")
+			    .attr("dx", "-.8em")
+			    .attr("dy", "-.55em")
+			    .attr("transform", "rotate(-90)" );
 
 		barnonfrail.append("g")
 			.attr("class", "axis axis--y")
-			.call(d3.axisLeft(y).ticks(10, "%"))
+			.call(d3.axisLeft(y).ticks(10))
 			.append("text")
 			.attr("transform", "rotate(-90)")
 			.attr("y", 6)
@@ -333,7 +320,7 @@ window.onload = function(){
 
 		barnonfrail.selectAll(".bar")
 			.data(nodedatanonfrail)
-			.enter().append("rect")
+			.enter().append("rect").attr("id", function(d){ return "barnf" + d.id})
 			.attr("class", "bar")
 			.style("fill", function(d) { return colorgraph(d.group); })
 			.style("stroke", "white")
@@ -343,27 +330,27 @@ window.onload = function(){
 			.attr("width", x.bandwidth())
 			.attr("height", function(d) { return bcheight - y(d.id); })
 			.on("mouseover", function(d, i) {
-				d3.select("#tooltip")
-						.style("left", bcwidth / 2 + "px")
-						.style("top", bcheight + graphheight + bcmargin.top + "px")
-						.select("#value")
-						.text("Average correlation strength:" + d.avecorrstr + "\n Node:"+ d.id + "\n Name:" + d.name);
 
-				//Show the tooltip
-					d3.select("#tooltip").classed("hidden", false);
-					
+				d3.select("#tooltip")
+					.style("left", (d3.event.pageX+10) + "px")
+					.style("top", (d3.event.pageY-10) + "px")
+					.select("#value")
+					.text("Average correlation strength:" + d.avecorrstr + "\n Node:"+ d.id + "\n Name:" + d.name);
+
+					d3.select("#tooltip").classed("hidden", false);	
 				})
 			.on("mouseout", function(){
-				   // d3.select(this).classed("cell-hover",false);
-				   // d3.selectAll(".rowLabel").classed("text-highlight",false);
-				   // d3.selectAll(".colLabel").classed("text-highlight",false);
+				  
 				   d3.select("#tooltip").classed("hidden", true);
-					
-			});;
-
-		// setting domain
-		x.domain(nodedatafrail.map(function(d) { return d.id; }));
-		y.domain([0, d3.max(nodedatafrail, function(d) { return d.avecorrstr; })]);
+			})		
+			.on("click", function(d){
+				
+				clickLinkactivate(d.id);
+			})
+			.on("dblclick", function(d){
+			
+				clickLinkdeactivate(d.id);
+			});
 
 		barfrail.append("g")
 			.attr("class", "axis axis--x")
@@ -383,7 +370,7 @@ window.onload = function(){
 			
 		barfrail.selectAll(".bar")
 			.data(nodedatafrail)
-			.enter().append("rect")
+			.enter().append("rect").attr("id", function(d){ return "barf" + d.id})
 			.attr("class", "bar")
 			.style("fill", function(d) { return colorgraph(d.group); })
 			.style("stroke", "white")
@@ -414,8 +401,18 @@ window.onload = function(){
 				   // d3.selectAll(".rowLabel").classed("text-highlight",false);
 				   // d3.selectAll(".colLabel").classed("text-highlight",false);
 				   d3.select("#tooltip").classed("hidden", true);
-					
-			});;
+			
+			})
+			.on("click", function(d){
+				console.log("test")
+				console.log(d.id)
+				clickLinkactivate(d.id);
+			})
+			.on("dblclick", function(d){
+				console.log("test")
+				console.log(d.id)
+				clickLinkdeactivate(d.id);
+			});
 
 
 		d3.select("input").on("change", change);
@@ -426,15 +423,15 @@ window.onload = function(){
 	                return b.group - a.group;
 	              } :
 	              function(a, b) {
-	                return d3.ascending(a.name, b.name);
+	                return d3.ascending(a.id, b.id);
 	              })
 	            .map(function(d) {
-	              return d.name;
+	              return d.id;
 	            }))
 	          .copy();
 	        bcsvgnonfrail.selectAll(".bar")
 	          .sort(function(a, b) {
-	            return x0(a.name) - x0(b.name);
+	            return x0(a.id) - x0(b.id);
 	          });
 	        var transition1 = bcsvgnonfrail.transition().duration(50),
 	          delay = function(d, i) {
@@ -443,7 +440,7 @@ window.onload = function(){
 	        transition1.selectAll(".bar")
 	          .delay(delay)
 	          .attr("x", function(d) {
-	            return x0(d.name);
+	            return x0(d.id);
 	          });
 	        transition1.select(".x.axis") //selects the x-axis
 	          // .call(xAxis)
@@ -456,15 +453,15 @@ window.onload = function(){
 	                return b.group - a.group;
 	              } :
 	              function(a, b) {
-	                return d3.ascending(a.name, b.name);
+	                return d3.ascending(a.id, b.id);
 	              })
 	            .map(function(d) {
-	              return d.name;
+	              return d.id;
 	            }))
 	          .copy();
 	        bcsvgfrail.selectAll(".bar")
 	          .sort(function(a, b) {
-	            return x1(a.name) - x1(b.name);
+	            return x1(a.id) - x1(b.id);
 	          });
 	        var transition2 = bcsvgfrail.transition().duration(50),
 	          delay = function(d, i) {
@@ -473,7 +470,7 @@ window.onload = function(){
 	        transition2.selectAll(".bar")
 	          .delay(delay)
 	          .attr("x", function(d) {
-	            return x1(d.name);
+	            return x1(d.id);
 	          });
 	        transition2.select(".x.axis") //selects the x-axis
 	          // .call(xAxis)
@@ -541,7 +538,7 @@ window.onload = function(){
 			.selectAll(".cellg")
 			.data(linkdatanonfrail,function(d){return d.target.id+":"+d.source.id;})
 			.enter()
-			.append("rect")
+			.append("rect").attr("id", function (d){return "hmnf" + d.source.id + "-" + d.target.id; })
 			.attr("x", function(d) { return hccol.indexOf(d.source.id) * cellSize; })
 			.attr("y", function(d) { return hcrow.indexOf(d.target.id) * cellSize; })
 			.attr("class", function(d){return "cell cell-border cr"+(d.target.id-1)+" cc"+(d.source.id-1);})
@@ -550,25 +547,59 @@ window.onload = function(){
 			.style("fill", function(d) { return colorScale(d.value); })
 				.on("click", function(d) {
 					   var rowtext=d3.select(".r"+(d.target.id-1));
-					   if(rowtext.classed("text-selected")==false){
+					   if(rowtext.classed("text-selected") == false){
 						   rowtext.classed("text-selected",true);
 					   }else{
 						   rowtext.classed("text-selected",false);
 					   }
 					})
 				.on("mouseover", function(d){
-					console.log(d)
+					// showTooltip(d)
+					variabelex = d.source.id
+					variabeley = d.target.id
+					console.log(variabelex)
+
+					var test1;
+
+					for (var i = 0; i < 90; i++) {
+
+						console.log(graphdatafrail.links[i].source.id)
+
+						if (graphdatafrail.links[i].target.id == variabelex){
+
+							if (graphdatafrail.links[i].source.id == variabeley){
+						 		// console.log(graphdatafrail.links[i])
+						 		// console.log("succes")
+						 		test1 = graphdatafrail.links[i]
+						 	}
+					 	} else if (graphdatafrail.links[i].source.id == variabelex){
+
+							if (graphdatafrail.links[i].target.id == variabeley){
+						 		// console.log(graphdatafrail.links[i])
+						 		// console.log("succes")
+						 		test1 = graphdatafrail.links[i]
+					 		}
+					 	// } else{
+					 	// 	test1 = "No connection";
+					 	// }
+					 }
+					}
+					console.log(test1)
+					// console.log(test2)
+					// console.log(graphdatafrail.links.source)
+
 					//highlight text
 					d3.select(this).classed("cell-hover",true);
-					d3.selectAll(".rowLabel").classed("text-highlight",function(r,ri){ return ri==(d.target.id-1);});
-					d3.selectAll(".colLabel").classed("text-highlight",function(c,ci){ return ci==(d.source.id-1);});
+					// d3.selectAll(".rowLabel").classed("text-highlight",function(r,ri){ return ri==(d.target.id-1);});
+					// d3.selectAll(".colLabel").classed("text-highlight",function(c,ci){ return ci==(d.source.id-1);});
 				
 					//Update the tooltip position and value
 					d3.select("#tooltip")
 						.style("left", (d3.event.pageX+10) + "px")
 						.style("top", (d3.event.pageY-10) + "px")
 						.select("#value")
-						.text("Node connection:"+rowLabel[d.target.id-1]+","+colLabel[d.source.id-1]+"\n Data:"+d.value);  
+						.text("Node connection:" + rowLabel[d.target.id-1]+","+colLabel[d.source.id-1]+"\n Data:"+d.value)
+						.text("Node connection:" + test1.source.id - 1+","+ test1.source.id + 1 + "\n Data:" + test1.value);  
 					
 					//Show the tooltip
 					d3.select("#tooltip").classed("hidden", false);
@@ -579,47 +610,73 @@ window.onload = function(){
 					   d3.selectAll(".rowLabel").classed("text-highlight",false);
 					   d3.selectAll(".colLabel").classed("text-highlight",false);
 					   d3.select("#tooltip").classed("hidden", true);
+				})
+				.on("click", function(d){
+				// console.log(cellid)
+				cellid = d.source.id + "-" + d.target.id
+				console.log(cellid)
+				clickLinkactivate(cellid);
+				})
+				.on("dblclick", function(d){
+					
+					cellid = d.source.id + "-" + d.target.id
+					clickLinkdeactivate(cellid);
 				});
 
-		function showTooltip(d){
+		// function showTooltip(d, jsonifiednonfrail, jsonifiedfrail){
 
-			console.log("in functie")
-			console.log(d)
+			// // console.log("in functie")
+			// console.log(d.source.id)
 
-			heatMap1.select("#tooltip")
-					.style("left", (d3.event.pageX+10) + "px")
-					.style("top", (d3.event.pageY-10) + "px")
-					.select("#value")
-					.text("Node connection:"+rowLabel[d.target.id - 1]+","+colLabel[d.source.id - 1]+"\n Data:"+d.value) 
+			// variable = d.source.id
+
+			// console.log(jsonifiedfrail)
+			// jsonifiedfrail.links.source[variable]
+
+			// // valuenonfrail = d
+			// // console.log(valuenonfrail)
+			// svghm.select("#tooltip")
+			// 		.style("left", (800) + "px")
+			// 		.style("top", (800) + "px")
+			// 		.select("#value")
+			// 		.text("Node connection:"+d.target.id - 1+","+d.source.id - 1+"\n Data:"+d.value) 
 				
-					//Show the tooltip
-					.select("#tooltip").classed("hidden", false)
-			// data(linkdatanonfrail,function(d){return d.target.id+":"+d.source.id;})
-				// // .select(this).classed("cell-hover",true)
-				// .selectAll(".rowLabel").classed("text-highlight",function(r,ri){ return ri == (d.target.id - 1);})
-				// .selectAll(".colLabel").classed("text-highlight",function(c,ci){ return ci == (d.source.id - 1);})
-			
-				//Update the tooltip position and value
+			// 		//Show the tooltip
+			// 		.select("#tooltip").classed("hidden", false)
+			// // data(linkdatanonfrail,function(d){return d.target.id+":"+d.source.id;})
+			// 	// // .select(this).classed("cell-hover",true)
+			// 	// .selectAll(".rowLabel").classed("text-highlight",function(r,ri){ return ri == (d.target.id - 1);})
+			// 	// .selectAll(".colLabel").classed("text-highlight",function(c,ci){ return ci == (d.source.id - 1);})
+		
+			// // hmsvg.select("#tooltip")
+			// // 		.style("left", (d3.event.pageX+10) + "px")
+			// // 		.style("top", (d3.event.pageY-10) + "px")
+			// // 		.select("#value")
+			// // 		.text("Node connection:"+rowLabel[d.target.id - 1]+","+colLabel[d.source.id - 1]+"\n Data:"+d.value) 
+				
+			// // 		//Show the tooltip
+			// // 		.select("#tooltip").classed("hidden", false)
+			// // 	//Update the tooltip position and value
 				
 				
 
-			heatMap2.data(linkdatanonfrail,function(d){return d.target.id+":"+d.source.id;})
-				.on("mouseover", function(d){
-					d3.select(this).classed("cell-hover",true);
-					d3.selectAll(".rowLabel").classed("text-highlight",function(r,ri){ return ri == (d.target.id - 1);});
-					d3.selectAll(".colLabel").classed("text-highlight",function(c,ci){ return ci == (d.source.id - 1);});
+		// 	heatMap2.data(linkdatanonfrail,function(d){return d.target.id+":"+d.source.id;})
+		// 		.on("mouseover", function(d){
+		// 			d3.select(this).classed("cell-hover",true);
+		// 			d3.selectAll(".rowLabel").classed("text-highlight",function(r,ri){ return ri == (d.target.id - 1);});
+		// 			d3.selectAll(".colLabel").classed("text-highlight",function(c,ci){ return ci == (d.source.id - 1);});
 				
-					//Update the tooltip position and value
-					d3.select("#tooltip")
-						.style("left", (d3.event.pageX+10) + "px")
-						.style("top", (d3.event.pageY-10) + "px")
-						.select("#value")
-						.text("Node connection:"+rowLabel[d.target.id-1]+","+colLabel[d.source.id-1]+"\n Data:"+d.value);  
+		// 			//Update the tooltip position and value
+		// 			d3.select("#tooltip")
+		// 				.style("left", (d3.event.pageX+10) + "px")
+		// 				.style("top", (d3.event.pageY-10) + "px")
+		// 				.select("#value")
+		// 				.text("Node connection:"+rowLabel[d.target.id-1]+","+colLabel[d.source.id-1]+"\n Data:"+d.value);  
 					
-					//Show the tooltip
-					d3.select("#tooltip").classed("hidden", false);
-				})
-		};
+		// 			//Show the tooltip
+		// 			d3.select("#tooltip").classed("hidden", false);
+		// 		})
+		// };
 
 		var legend = hmsvgnonfrail.selectAll(".legend")
 			.data([0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1])
@@ -689,7 +746,7 @@ window.onload = function(){
 			.selectAll(".cellg")
 			.data(linkdatafrail,function(d){return d.target.id+":"+d.source.id;})
 			.enter()
-			.append("rect")
+			.append("rect").attr("id", function (d){return "hmf" + d.source.id + "-" + d.target.id; })
 			.attr("x", function(d) { return hccol.indexOf(d.source.id) * cellSize; })
 			.attr("y", function(d) { return hcrow.indexOf(d.target.id) * cellSize; })
 			.attr("class", function(d){return "cell cell-border cr"+(d.target.id-1)+" cc"+(d.source.id-1);})
@@ -705,7 +762,7 @@ window.onload = function(){
 					   }
 				})*/
 				.on("mouseover", function(d){
-					console.log("dit is :", d)
+					
 					//highlight text
 					d3.select(this).classed("cell-hover",true);
 					d3.selectAll(".rowLabel").classed("text-highlight",function(r,ri){ return ri==(d.target.id-1);});
@@ -726,6 +783,17 @@ window.onload = function(){
 					   d3.selectAll(".rowLabel").classed("text-highlight",false);
 					   d3.selectAll(".colLabel").classed("text-highlight",false);
 					   d3.select("#tooltip").classed("hidden", true);
+				})
+				.on("click", function(d){
+				// console.log(cellid)
+				cellid = d.source.id + "-" + d.target.id
+				console.log(cellid)
+				clickLinkactivate(cellid);
+				})
+				.on("dblclick", function(d){
+					
+					cellid = d.source.id + "-" + d.target.id
+					clickLinkdeactivate(cellid);
 				});
 
 		var legend = hmsvgfrail.selectAll(".legend")
@@ -782,6 +850,9 @@ window.onload = function(){
 
   function order(value){
    if(value=="module"){
+
+   	console.log("in module choice")
+
     var t = hmsvgnonfrail.transition().duration(3000);
     t.selectAll(".cell")
       .attr("x", function(d) { return hccol.indexOf(d.source.id) * cellSize; })
@@ -797,6 +868,8 @@ window.onload = function(){
       ;
 
    }else{
+
+   	console.log("in else choice")
     var t = hmsvgnonfrail.transition().duration(3000);
     t.selectAll(".cell")
       .attr("x", function(d) { return (d.source.id - 1) * cellSize; })
@@ -836,6 +909,64 @@ window.onload = function(){
 		d.fx = null;
 		d.fy = null;
 	}
+
+	function clickLinkactivate(id) {
+
+	console.log(id)
+	// console.log(mapElement)
+	var nonfrailElement = d3.select("#svgnf" + id)
+							.style("stroke", "black")
+							.style("stroke-width", "2px");
+	// console.log(mapElement)
+	var frailElement = d3.select("#svgf" + id)
+							.style("stroke", "black")
+							.style("stroke-width", "2px");
+
+	var barnonfrailElement = d3.select("#barnf" + id)
+							.style("stroke", "black")
+							.style("stroke-width", "2px");
+	// console.log(mapElement)
+	var barfrailElement = d3.select("#barf" + id)
+							.style("stroke", "black")
+							.style("stroke-width", "2px");
+
+	var hmnonfrailElement = d3.select("#hmnf" + id)
+							.style("stroke", "black")
+							.style("stroke-width", "2px");
+	// console.log(mapElement)
+	var hmfrailElement = d3.select("#hmf" + id)
+							.style("stroke", "black")
+							.style("stroke-width", "1px");
+
+
+}
+
+function clickLinkdeactivate(id) {
+
+	var nonfrailElement = d3.select("#svgnf" + id)
+							.style("stroke", "white")
+							.style("stroke-width", "1px");
+	// console.log(mapElement)
+	var frailElement = d3.select("#svgf" + id)
+							.style("stroke", "white")
+							.style("stroke-width", "1px");
+
+	var barnonfrailElement = d3.select("#barnf" + id)
+							.style("stroke", "white")
+							.style("stroke-width", "1px");
+	// console.log(mapElement)
+	var barfrailElement = d3.select("#barf" + id)
+							.style("stroke", "white")
+							.style("stroke-width", "1px");
+
+	var hmnonfrailElement = d3.select("#hmnf" + id)
+							.style("stroke", "white")
+							.style("stroke-width", "1px");
+	// console.log(mapElement)
+	var hmfrailElement = d3.select("#hmf" + id)
+							.style("stroke", "white")
+							.style("stroke-width", "1px");
+}
 
 
 	// function d3CheckBox () {
