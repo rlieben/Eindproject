@@ -1,17 +1,18 @@
+/*
+
+Course: Endproject
+Minor programming, University of Amsterdam
+Raoul Lieben
+10556346
+
+mainscript.js : loads the data and creates all the graphs.
+	also ensures the dropdown menu option calls the update function
+
+*/
+
 window.onload = function(){
 
-
-	// create queue
-	// queue()
-	// .defer(d3.json, 'jsonifiednonfrail.json')
-	// .defer(d3.json, 'jsonifiedfrail.json')
-	// .await(updateGraph);
-
-	// color scheme network graph
-	var colorgraph = d3.scaleOrdinal(d3.schemeCategory10);
-
-
-
+	// loads the data and updates the graph and switches data on dropdown
 	updateGraph();
 
 	function updateGraph(error){
@@ -21,77 +22,15 @@ window.onload = function(){
 
 			d3.json('jsonifiednonfrail.json', function(datanonfrail){
 			
-			makeNetwork(datanonfrail, datafrail);
-			makeBarchart(datanonfrail, datafrail);
-			makeHeatmap(datanonfrail, datafrail);
+				makeNetwork(datanonfrail, datafrail);
+				makeBarchart(datanonfrail, datafrail);
+				makeHeatmap(datanonfrail, datafrail);
 
-			// d3.select("#svgbcnf")
-			// 	.selectAll(".bar")
-			// 	.attr("visibility", "hidden")
-
-			// d3.select("#svgbcf")
-			// 	.selectAll(".bar")
-			// 	.attr("visibility", "hidden")
-			d3.select("#order").on("change",function(){
-				console.log("beforeswitch")
-				switchData(this.value);
-			});
+				d3.select("#order").on("change",function(){
+				
+					switchData(this.value);
+				});
 			});
 		});
-	}
-
-	
-
-	// d3.select("#order").on("change",function(){
- //  	  	order(this.value);
- //  	});
-
- //  	function order(value){
- //   		if (value == "conn1"){
-
- //   			d3.select("#svgnf").removeAll()
- //   			d3.select("#svgf").removeAll()
- //   			d3.select("#svgbcnf").removeAll()
- //   			d3.select("#svgbcf").removeAll()
- //   			d3.select("#svghmnf").removeAll()
- //   			d3.select("#svgmf").removeAll()
-
- //   			d3.json('jsonifiedfrail1.json', function(datanonfrail) {
-
-	// 			d3.json('jsonifiednonfrail.json', function(datafrail){
-
-	// 				makeNetwork(datanonfrail, datafrail);
-	// 				makeBarchart(datanonfrail, datafrail);
-	// 				makeHeatmap(datanonfrail, datafrail);
-	// 			});
-	// 		});
-
-   					
-   			
-
- //   			// makeNetwork()
-
- //   		} else if (value == "conn2"){
-
- //   			d3.select("#svgnf").remove()
- //   			d3.select("#svgf").remove()
- //   			d3.select("#svgbcnf").remove()
- //   			d3.select("#svgbcf").remove()
- //   			d3.select("#svghmnf").remove()
- //   			d3.select("#svghmf").remove()
-
- //   			d3.json('jsonifiedfrail.json', function(datanonfrail) {
-
-	// 			d3.json('jsonifiednonfrail.json', function(datafrail){
-
-	// 				console.log("Test")
-	// 				console.log(datafrail)
-	// 				console.log(datanonfrail)
-	// 				makeNetwork(datanonfrail, datafrail);
-	// 				makeBarchart(datanonfrail, datafrail);
-	// 				makeHeatmap(datanonfrail, datafrail);
-	// 			});
-	// 		});
-	// 	};
-	
+	};
 };

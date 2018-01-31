@@ -1,5 +1,22 @@
+/*
+
+Course: Endproject
+Minor programming, University of Amsterdam
+Raoul Lieben
+10556346
+
+showTooltip.js : shows and updates tooltip for hovered element
+
+contains: 	tooltipNetwork: tooltip for network graph
+			tooltipBarchartacs: tooltip for correlation data of barchart
+			tooltipBarchartmod: tooltip for modularity data of barchart
+			tooltipHeatmap: tooltip for heatmap
+		
+*/
+
 function tooltipNetwork (d){
 
+	// selects tooltip and updates values
 	d3.select("#tooltip")
 		.style("left", (d3.event.pageX + 10) + "px")
 		.style("top", (d3.event.pageY - 10) + "px")
@@ -14,6 +31,7 @@ function tooltipNetwork (d){
 
 function tooltipBarchartacs (d){
 
+	// selects tooltip and updates values
 	d3.select("#tooltip")
 		.style("left", (d3.event.pageX + 10) + "px")
 		.style("top", (d3.event.pageY - 10) + "px")
@@ -31,6 +49,7 @@ function tooltipBarchartacs (d){
 
 function tooltipBarchartmod (d){
 
+	// selects tooltip and updates values
 	d3.select("#tooltip")
 		.style("left", (d3.event.pageX + 10) + "px")
 		.style("top", (d3.event.pageY - 10) + "px")
@@ -48,6 +67,7 @@ function tooltipBarchartmod (d){
 
 function tooltipHeatmap (d){
 
+	// selects tooltip and updates values
 	d3.select("#tooltip")
 		.style("left", (d3.event.pageX + 10) + "px")
 		.style("top", (d3.event.pageY - 10) + "px")

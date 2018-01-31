@@ -1,3 +1,19 @@
+/*
+
+Course: Endproject
+Minor programming, University of Amsterdam
+Raoul Lieben
+10556346
+
+interactiveClick.js : ensures the click event triggers the right element in the other graphs
+
+contains: 	clickLinkactivate : 	activates the elements
+			clinkLinkdeactivate: 	deactivates the elements
+			unselectSelection: 		unselects all clicked elements
+				
+*/
+
+// selects the right elements and creates selection border around them
 function clickLinkactivate(id) {
 
 	var nonfrailElement = d3.select("#svgnf" + id)
@@ -33,6 +49,7 @@ function clickLinkactivate(id) {
 		.style("stroke-width", "2px");
 }
 
+// selects the right elements and removes selection border around them
 function clickLinkdeactivate(id) {
 
 	var nonfrailElement = d3.select("#svgnf" + id)
@@ -61,13 +78,14 @@ function clickLinkdeactivate(id) {
 
 	var hmnonfrailElement = d3.select("#hmnf" + id)
 		.style("stroke", "white")
-		.style("stroke-width", "1px");
+		.style("stroke-width", "0.01px");
 
 	var hmfrailElement = d3.select("#hmf" + id)
 		.style("stroke", "white")
-		.style("stroke-width", "1px");
+		.style("stroke-width", "0.01px");
 }
 
+// selects all elements and removes selection border around them
 function unselectSelection() {
 
 	var nonfrailElement = d3.select("#svgnf")

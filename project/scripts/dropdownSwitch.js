@@ -1,8 +1,17 @@
+/*
+
+Course: Endproject
+Minor programming, University of Amsterdam
+Raoul Lieben
+10556346
+
+dropdownSwitch.js : ensures the click event triggers the right element in the other graphs
+
+*/
+
 function switchData(value){
 
 	if (value == "mod"){
-
-		console.log("mod");;
 
 		d3.select("#svgbcnf")
 			.selectAll(".bar")
