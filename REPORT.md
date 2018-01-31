@@ -1,6 +1,6 @@
 ## Short description
 
-The application shows an average frail and non-frail functional brain network. Frailty is a medical condition, where people are more susceptible to such things as diseases or hospitalizations. The application shows a weighted force-directed graph, a barchart showing average correlation strength for each node and modularity value for each node and a heatmap showing all correlations of the network (see image below)
+The application shows an average frail and non-frail functional brain network. Frailty is a medical condition, where people are more susceptible to such things as diseases or hospitalizations. The application shows a weighted force-directed graph, a barchart showing average correlation strength for each node and modularity value for each node and a heatmap showing all correlations of the network (image has to be downloaded for better resolution)
 
 ![](/doc/total.png)
 
@@ -37,4 +37,14 @@ The script dropdownSwitch.js hides or shows the selected data in the dropdown me
 The last script is showTooltip.js and is called when the mouse hovers over an element. It returns a tooltip with some info on the element.
 
 ## Challenges
+
+The first real challenge is one that is not documented, since it ocurred in the first week. I realized I had to take some time to transform my data, but I underestimated how much time it would take me. The data I used is functional brain data and it takes some time and several Matlab scripts and complex mathematical equations to extract good values from it. I already did this half a year ago, but it still was pretty hard to do it again, since I lost some of my Matlab scripts. This took up almost my entire first week and therefore the time loss, caused some difficulties later on.
+Starting with the first problem that is documented on day 6 (started counting when I started the progress), when I wanted to implement a dropdown menu for selecting the frail or non-frail dataset. I had some difficulties with loading the data twice using d3-queue and did not solve it after a whole day. This made me choose to move on for now and fix it later since time was short. The following days I implemented two datasets at once. This actually turned out to be a good decision, because the visualization is much more interesting when viewing the two network graphs at once. Nevertheless, because of time-pressure I made two seperate graph svgs and not one function that can make graphs based on 1 input, so I had a lot of duplicate code. I was not able to make an universal function due to time-issues.
+
+## Decisions
+
+The decision to show two graphs next to eachother was a good one, because comparing two networks is better when they are side to side than selected by a dropdown.
+The dropdown I implemented for my barchart is also very nice, because it is good to load different data there and compare it between the two networks.
+
+In an ideal world, I would've implemented a universal function that creates a network based on input data, and not a fixed function that always draws two, two data inputs. Also I would've have more input for the barchart.
 
