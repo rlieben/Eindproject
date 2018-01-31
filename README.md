@@ -1,3 +1,5 @@
+Copyright (c) 2018 Raoul Lieben
+
 ##### Study: Minor programming, University of Amsterdam
 ##### Course: Programmeerproject
 ##### Student ID: 10556346
