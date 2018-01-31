@@ -17,7 +17,7 @@ graph.html : 	html page for graph.
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.8/d3.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="/Eindproject/project/css/style.css">
+		<link rel="stylesheet" href="/css/style.css">
 
 		<div class="container">
 			<h1>Brain network visualization project</h1>
@@ -67,14 +67,12 @@ graph.html : 	html page for graph.
   			</div>
     		<div class="row">
    				<div class = "col-sm-6"
-   					id = "bcfrail">
-      				<h3>Average correlation strength</h3>
-    
+   					id = "bcfrail">  
+   					<h5>Average correlation strength/modularity value per node</h5>  
     			</div>
     			<div class = "col-sm-6"
    					id = "bcnonfrail">
-      				<h3>Average correlation strength</h3>
-    
+   					<h5>Average correlation strength/modularity value per node</h5>
     			</div>
     		</div>
     		<div class="row">
@@ -101,22 +99,22 @@ graph.html : 	html page for graph.
 		<script src="https://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 		<script src="https://d3js.org/queue.v1.min.js"></script>
 
-		
+		<!--
 		<script src="/Eindproject/project/scripts/mainscript.js"></script>
 		<script src="/Eindproject/project/scripts/interactiveClick.js"></script> 
 		<script src="/Eindproject/project/scripts/makeNetwork.js"></script> 
 		<script src="/Eindproject/project/scripts/makeBarchart.js"></script> 
 		<script src="/Eindproject/project/scripts/makeHeatmap.js"></script> 
 		<script src="/Eindproject/project/scripts/showTooltip.js"></script> 
-		<script src="/Eindproject/project/scripts/dropdownSwitch.js"></script>
+		<script src="/Eindproject/project/scripts/dropdownSwitch.js"></script>-->
 
-<!-- 		// <script src="/scripts/mainscript.js"></script>
-		// <script src="/scripts/interactiveClick.js"></script> 
-		// <script src="/scripts/makeNetwork.js"></script> 
-		// <script src="/scripts/makeBarchart.js"></script> 
-		// <script src="/scripts/makeHeatmap.js"></script> 
-		// <script src="/scripts/showTooltip.js"></script> 
-		// <script src="/scripts/dropdownSwitch.js"></script>  -->
+		<script src="/scripts/mainscript.js"></script>
+		<script src="/scripts/interactiveClick.js"></script> 
+		<script src="/scripts/makeNetwork.js"></script> 
+		<script src="/scripts/makeBarchart.js"></script> 
+		<script src="/scripts/makeHeatmap.js"></script> 
+		<script src="/scripts/showTooltip.js"></script> 
+		<script src="/scripts/dropdownSwitch.js"></script> 
 	</head>
 	<body></body>
 </html>

@@ -28,6 +28,7 @@ function switchData(value){
 		d3.select("#svgbcf")
 			.selectAll(".rect")
 			.attr("visibility", "visible");
+
 	} else if (value == "acs"){
 
 		d3.select("#svgbcnf")
