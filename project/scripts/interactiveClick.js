@@ -8,11 +8,19 @@ function clickLinkactivate(id) {
 		.style("stroke", "black")
 		.style("stroke-width", "2px");
 
-	var barnonfrailElement = d3.select("#barnf" + id)
+	var baracsnonfrailElement = d3.select("#barnfacs" + id)
 		.style("stroke", "black")
 		.style("stroke-width", "2px");
 
-	var barfrailElement = d3.select("#barf" + id)
+	var baracsfrailElement = d3.select("#barfacs" + id)
+		.style("stroke", "black")
+		.style("stroke-width", "2px");
+
+	var barmodnonfrailElement = d3.select("#barnfmod" + id)
+		.style("stroke", "black")
+		.style("stroke-width", "2px");
+
+	var barmodfrailElement = d3.select("#barfmod" + id)
 		.style("stroke", "black")
 		.style("stroke-width", "2px");
 
@@ -35,11 +43,19 @@ function clickLinkdeactivate(id) {
 		.style("stroke", "white")
 		.style("stroke-width", "1px");
 
-	var barnonfrailElement = d3.select("#barnf" + id)
+	var barnonfrailElement = d3.select("#barnfacs" + id)
 		.style("stroke", "white")
 		.style("stroke-width", "1px");
 	
-	var barfrailElement = d3.select("#barf" + id)
+	var barfrailElement = d3.select("#barfacs" + id)
+		.style("stroke", "white")
+		.style("stroke-width", "1px");
+
+	var barnonfrailElement = d3.select("#barnfmod" + id)
+		.style("stroke", "white")
+		.style("stroke-width", "1px");
+	
+	var barfrailElement = d3.select("#barfmod" + id)
 		.style("stroke", "white")
 		.style("stroke-width", "1px");
 
@@ -64,13 +80,23 @@ function unselectSelection() {
 		.style("stroke", "white")
 		.style("stroke-width", "1px");
 
-	var barnonfrailElement = d3.select("#svgbcnf")
+	var baranonfrailElement = d3.select("#svgbcnf")
 		.selectAll(".bar")
 		.style("stroke", "white")
 		.style("stroke-width", "1px");
 	
 	var barfrailElement = d3.select("#svgbcf")
 		.selectAll(".bar")
+		.style("stroke", "white")
+		.style("stroke-width", "1px");
+
+	var baranonfrailElement = d3.select("#svgbcnf")
+		.selectAll(".rect")
+		.style("stroke", "white")
+		.style("stroke-width", "1px");
+	
+	var barfrailElement = d3.select("#svgbcf")
+		.selectAll(".rect")
 		.style("stroke", "white")
 		.style("stroke-width", "1px");
 

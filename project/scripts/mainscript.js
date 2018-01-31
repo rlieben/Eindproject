@@ -21,15 +21,26 @@ window.onload = function(){
 
 			d3.json('jsonifiednonfrail.json', function(datanonfrail){
 			
-			
 			makeNetwork(datanonfrail, datafrail);
 			makeBarchart(datanonfrail, datafrail);
 			makeHeatmap(datanonfrail, datafrail);
 
+			// d3.select("#svgbcnf")
+			// 	.selectAll(".bar")
+			// 	.attr("visibility", "hidden")
+
+			// d3.select("#svgbcf")
+			// 	.selectAll(".bar")
+			// 	.attr("visibility", "hidden")
+			d3.select("#order").on("change",function(){
+				console.log("beforeswitch")
+				switchData(this.value);
+			});
 			});
 		});
 	}
 
+	
 
 	// d3.select("#order").on("change",function(){
  //  	  	order(this.value);

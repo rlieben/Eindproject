@@ -18,15 +18,6 @@ var svggraphfrail = d3.select("#frailnetwork")
 	.attr("width", graphwidth)
 	.attr("height", graphheight);
 
-svggraphfrail.append("text")
-        .attr("x", (graphwidth / 4))             
-        .attr("y", 0 - (graphmargin.top / 2))
-        .attr("text-anchor", "left")  
-        .style("font-size", "16px") 
-        .style("text-decoration", "underline")  
-        .style("fill", "black")
-        .text("Value vs Date Graph");
-
 // color scheme network graph
 var colorgraph = d3.scaleOrdinal(d3.schemeCategory10);
 

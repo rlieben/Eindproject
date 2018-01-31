@@ -174,10 +174,6 @@ Raoul Lieben
 				line-height: 20px;
 			}
 		</style>
-		<div>
-		<div style- "text-align:center;"><input type="checkbox"> Sort values barchart</div>
-  			<div id="graph">
-  		</div>
 
 <!-- 
 		<div class = "col-sm-12"
@@ -186,21 +182,15 @@ Raoul Lieben
   		<div id="option">
    			
 		</div> -->
-		<select id="order">
+	<!-- 	<select id="order">
 		  	<option value="node">Node</option>
 		  	<option value="module">Module</option>
-		  	</select>
+		</select> -->
 		<!-- </select> -->
 		<div class="container">
-			<div class="row">
-				<div class="col-sm-12"
-					id = "option">
-					<input name="updateButton" 
-               			type="button"
-                		class="btn btn-default"
-                		value="Unselect selection" 
-                		onclick="unselectSelection()" />
-                	</div>
+			<!-- <div class="row">
+				
+            </div> -->
   			<div class="row">
    				<div class = "col-sm-6"
    					id = "frailnetwork">
@@ -213,7 +203,29 @@ Raoul Lieben
     
     			</div>
     		</div>
-    		
+    		<div class = "row">
+    			<div class = "col-sm-4">
+    				<select id="order">
+		  				<option value="acs">Average correlation strength</option>
+		  				<option value="mod">Modularity values</option>
+					</select>
+    			</div>
+    			<div class = "col-sm-4"
+    				id = "checkboxsort">
+    				<div style- "text-align:center;">
+    					<input type="checkbox" id="checkbox"> Sort values barchart</div>
+  						<div id="graph">
+  					</div>
+  				</div>
+  				<div class="col-sm-4"
+					id = "option">
+					<input name="updateButton" 
+               			type="button"
+                		class="btn btn-default"
+                		value="Unselect selection" 
+                		onclick="unselectSelection()" />
+                </div>
+  			</div>
     		<div class="row">
    				<div class = "col-sm-6"
    					id = "bcfrail">
@@ -259,6 +271,15 @@ Raoul Lieben
 	<script src="/Eindproject/project/scripts/makeBarchart.js"></script> 
 	<script src="/Eindproject/project/scripts/makeHeatmap.js"></script> 
 	<script src="/Eindproject/project/scripts/showTooltip.js"></script> 
+	<script src="/scripts/dropdownSwitch.js"></script>
+
+<!-- 	// <script src="/scripts/mainscript.js"></script>
+	// <script src="/scripts/interactiveClick.js"></script> 
+	// <script src="/scripts/makeNetwork.js"></script> 
+	// <script src="/scripts/makeBarchart.js"></script> 
+	// <script src="/scripts/makeHeatmap.js"></script> 
+	// <script src="/scripts/showTooltip.js"></script> 
+	// <script src="/scripts/dropdownSwitch.js"></script>  -->
 	</head>
 	<body>
 	</body>

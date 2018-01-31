@@ -70,7 +70,7 @@ function makeBarchart(bcdatanonfrail, bcdatafrail){
 
 	barnonfrail.selectAll(".bar")
 		.data(bcdatanonfrail.nodes)
-		.enter().append("rect").attr("id", function(d){ return "barnf" + d.id})
+		.enter().append("rect").attr("id", function(d){ return "barnfacs" + d.id})
 		.attr("class", "bar")
 		.style("fill", function(d) { return colorgraph(d.group); })
 		.style("stroke", "white")
@@ -81,7 +81,36 @@ function makeBarchart(bcdatanonfrail, bcdatafrail){
 		.attr("height", function (d) { return bcheight - y(d.id); })
 		.on("mouseover", function (d) {
 
-			tooltipBarchart(d);
+			tooltipBarchartacs(d);
+		})
+		.on("mouseout", function(){
+			  
+			   d3.select("#tooltip").classed("hidden", true);
+		})		
+		.on("click", function(d){
+			
+			clickLinkactivate(d.id);
+		})
+		.on("dblclick", function(d){
+		
+			clickLinkdeactivate(d.id);
+		});
+
+	barnonfrail.selectAll(".rect")
+		.data(bcdatanonfrail.nodes)
+		.enter().append("rect").attr("id", function(d){ return "barnfmod" + d.id})
+		.attr("class", "rect")
+		.attr("visibility", "hidden")
+		.style("fill", function(d) { return colorgraph(d.group); })
+		.style("stroke", "white")
+		.style("stroke-width", "1px")
+		.attr("x", function (d) { return x(d.id); })
+		.attr("y", function (d) { return y(d.mod); })
+		.attr("width", x.bandwidth())
+		.attr("height", function (d) { return bcheight - y(d.id); })
+		.on("mouseover", function (d) {
+
+			tooltipBarchartmod(d);
 		})
 		.on("mouseout", function(){
 			  
@@ -114,7 +143,7 @@ function makeBarchart(bcdatanonfrail, bcdatafrail){
 		
 	barfrail.selectAll(".bar")
 		.data(bcdatafrail.nodes)
-		.enter().append("rect").attr("id", function(d){ return "barf" + d.id})
+		.enter().append("rect").attr("id", function(d){ return "barfacs" + d.id})
 		.attr("class", "bar")
 		.style("fill", function(d) { return colorgraph(d.group); })
 		.style("stroke", "white")
@@ -125,7 +154,7 @@ function makeBarchart(bcdatanonfrail, bcdatafrail){
 		.attr("height", function(d) { return bcheight - y(d.id); })
 		.on("mouseover", function(d, i) {
 
-			tooltipBarchart(d);
+			tooltipBarchartacs(d);
 		})
 		.on("mouseout", function(){
 			  
@@ -140,14 +169,45 @@ function makeBarchart(bcdatanonfrail, bcdatafrail){
 			clickLinkdeactivate(d.id);
 		});
 
-	// sorting data on checkbox
-	d3.select("change").on("change", change);
+	barfrail.selectAll(".rect")
+		.data(bcdatafrail.nodes)
+		.enter().append("rect").attr("id", function(d){ return "barfmod" + d.id})
+		.attr("class", "rect")
+		.attr("visibility", "hidden")
+		.style("fill", function(d) { return colorgraph(d.group); })
+		.style("stroke", "white")
+		.style("stroke-width", "1px")
+		.attr("x", function (d) { return x(d.id); })
+		.attr("y", function (d) { return y(d.mod); })
+		.attr("width", x.bandwidth())
+		.attr("height", function (d) { return bcheight - y(d.id); })
+		.on("mouseover", function (d) {
 
-	// sorting data of barchart
+			tooltipBarchartmod(d);
+		})
+		.on("mouseout", function(){
+			  
+			   d3.select("#tooltip").classed("hidden", true);
+		})		
+		.on("click", function(d){
+			
+			clickLinkactivate(d.id);
+		})
+		.on("dblclick", function(d){
+		
+			clickLinkdeactivate(d.id);
+		});
+
+	// sorting data on checkbox
+	d3.select("#checkbox").on("change", change);
+
+	// // sorting data of barchart
 	function change() {
 
+		console.log("checkbox")
 		var x0 = x.domain(bcdatanonfrail.nodes.sort(this.checked ? function(a, b) {
 
+				return b.group - a.group;
 				return b.group - a.group;
 			} : function(a, b) {
 
@@ -165,6 +225,12 @@ function makeBarchart(bcdatanonfrail, bcdatafrail){
 				return x0(a.id) - x0(b.id);
 			});
 
+		bcsvgnonfrail.selectAll(".rect")
+			.sort(function(a, b) {
+
+				return x0(a.id) - x0(b.id);
+			});
+
 		var transition1 = bcsvgnonfrail.transition().duration(50),
 			delay = function(d, i) {
 
@@ -172,6 +238,13 @@ function makeBarchart(bcdatanonfrail, bcdatafrail){
 			};
 
 		transition1.selectAll(".bar")
+			.delay(delay)
+			.attr("x", function(d) {
+
+				return x0(d.id);
+			});
+
+		transition1.selectAll(".rect")
 			.delay(delay)
 			.attr("x", function(d) {
 
@@ -201,6 +274,12 @@ function makeBarchart(bcdatanonfrail, bcdatafrail){
 				return x1(a.id) - x1(b.id);
 			});
 
+		bcsvgfrail.selectAll(".rect")
+			.sort(function(a, b) {
+
+				return x1(a.id) - x1(b.id);
+			});
+
 		var transition2 = bcsvgfrail.transition().duration(50),
 			delay = function(d, i) {
 
@@ -214,11 +293,18 @@ function makeBarchart(bcdatanonfrail, bcdatafrail){
 				return x1(d.id);
 			});
 
+		transition2.selectAll(".rect")
+			.delay(delay)
+			.attr("x", function(d) {
+
+				return x1(d.id);
+			});
+
 		transition2.select(".x.axis")
 			.selectAll("g")
 			.delay(delay);
 	}	
 
-};
 
+};
 

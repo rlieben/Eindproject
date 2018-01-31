@@ -1,10 +1,11 @@
 import json
 import csv
 
-url = "/Users/raoullieben/Documents/Psychobiologie/minorprogrammeren/project/meancorrfrail.csv"
-url2 = "/Users/raoullieben/Documents/Psychobiologie/minorprogrammeren/project/AALregionsinclCfrail.csv"
+url = "/Users/raoullieben/Documents/Psychobiologie/minorprogrammeren/project/meancorrnonfrail.csv"
+url2 = "/Users/raoullieben/Documents/Psychobiologie/minorprogrammeren/project/AALregionsinclCnonfrail.csv"
+url3 = "/Users/raoullieben/Documents/Psychobiologie/minorprogrammeren/project/modularitylouvain.txt"
 
-def jsonifier(url, url2):
+def jsonifier(url, url2, url3):
 
 	# open file
 	infile = open(url, 'r')
@@ -72,6 +73,13 @@ def jsonifier(url, url2):
 	# split data2 at lines
 	datasplit2 = data2.splitlines()
 
+	# open file
+	infile2 = open(url3, 'r')
+	data3 = infile2.read()
+
+	# split data2 at lines
+	datasplit3 = data3.splitlines()
+
 	# initiate empty dict for nodes
 	nodes = []
 
@@ -79,19 +87,21 @@ def jsonifier(url, url2):
 	for i in range(len(datasplit2)):
 
 		splittednode = datasplit2[i].split(';')
+		splittedmod = datasplit3[i].split("	")
+		print(splittedmod[0])
 
 		
 		idindex = i + 1
-		nodes.append({'id': idindex, 'name': splittednode[0], 'group' : splittednode[1], 'avecorrstr' : avecorrstrength[i]})
+		nodes.append({'id': idindex, 'name': splittednode[0], 'group' : splittednode[1], 'avecorrstr' : avecorrstrength[i], 'mod' : splittedmod[0]})
 
 
 	# creating dict for nodes and links
 	total = {'nodes': nodes, 'links': links}
 	# print(total)
 
-	# print statement in terminal for tsv values
-	for line in heatmappie:
-		print(line)
+	# # print statement in terminal for tsv values
+	# for line in heatmappie:
+	# 	print(line)
 
 	# place data2 in variable
 	jsondicts = json.dumps(total)
@@ -100,7 +110,7 @@ def jsonifier(url, url2):
 	jsonified = json.loads(jsondicts)
 
 	# write data2 to output file
-	with open('jsonifiednonfrail.json', 'w') as outfile:
+	with open('jsonifiedfrail.json', 'w') as outfile:
 		json.dump(jsonified, outfile)
 
 	# textfile = open("textfile.txt","w") 
@@ -127,4 +137,4 @@ def jsonifier(url, url2):
 	# 		writer.writerows(line)
 
 
-jsonifier(url, url2)
+jsonifier(url, url2, url3)
