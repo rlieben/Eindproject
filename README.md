@@ -2,37 +2,13 @@
 ##### Course: Programmeerproject
 ##### Student ID: 10556346
 ##### Name: Raoul Lieben
-##### Content: Proposal for visualizing the world's climate change problem
+##### Content: Visualization of functional frail and non-frail brain network data
 
-Github Pages Project: https://rlieben.github.io/Eindproject
+Go to project: Github Pages Project: https://rlieben.github.io/Eindproject
 
-## Functional brain network visualization:
+# Functional brain network visualization
+This application is build to visualize functional brain network data. This field of research is fairly new and that's why a good visualization tool is needed. The schematic overview and draggable nodes give a good insight in how the network is build. The idea was to create a template to observe the network and some network parameters. The idea was later expanded to do not only this, but also add an extra network. The barchart gives a good opportunity to compare certain values of network parameters within and between networks. The heatmap also gives a good insight of the modules. The application is shown with an average frail and non-frail functional brain network. 
 
-#### Problem Statement:
-In the emerging field of functional brain network analysis, visualization methods are scarce and not interactive for a good interpretation of the data. This is because of the novelty of the research field, but also because of the complexity of the understanding of brain data.
-
-#### Solution:
-An interactive brain network, showing info on the clickable node and a heat map for connection strength to each other node. 
-
-#### Main features:
-•	Interactive, clickable, coloured (colour defines the module each node is assigned to) brain network. A drop down menu lets you select an other input brain network. The clickable nodes triggers:
-    o	Interactive table showing info about the node
-    o	Heat map for connection-strength to each node in the network
-•	Static table showing demographics of the dataset
-Sketch: https://github.com/rlieben/Eindproject/blob/master/doc/designsketch.JPG
-![](doc/designsketch.JPG)
-
-##### Data:
-Anonymized functional brain network with correlation strengths. Obtained from the BioCog research group at the University Medical Center Utrecht. 
-
-#### External components:
-•	D3 library : "https://d3js.org/d3.v3.min.js"
-•	D3 network libraries: “http://bl.ocks.org/jose187/4733747”
--  D3 queue
-- Bootstrap
-
-#### Similar visualizations:
-There are interactive visualizations of the brain, but not of a functional network the brain shows. The only visualization made are not interactive and only for publishing. A static example is the BrainNet viewer (https://www.nitrc.org/projects/bnv/), but is a plugin for MatLab.
-
-#### Hardest parts:
-The hardest part is finding a way to transform the data into a json file containing all connections and connection strengths. Also viewing all connection strengths from one node as a heatmap. And converging the demographics into the file, or putting it in a separate file
+![](doc/nw.PNG)
+![](doc/bc.PNG)
+![](doc/hm.PNG)
