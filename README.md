@@ -22,9 +22,9 @@ The heatmap shows correlation strength between each node.
 ## Sources
 
 https://bl.ocks.org/mbostock/4062045
-http://bl.ocks.org/ianyfchang/8119685#data_heatmap.tsv
+https://bl.ocks.org/ianyfchang/8119685#data_heatmap.tsv
 https://bl.ocks.org/mbostock/3885304
-http://bl.ocks.org/d3noob/7030f35b72de721622b8
+https://bl.ocks.org/d3noob/7030f35b72de721622b8
 https://github.com/shanegibney/D3-v4-Sortable-Bar-Chart-Checkbox-1-Value/blob/master/index.html
 https://d3js.org/
 https://getbootstrap.com/
