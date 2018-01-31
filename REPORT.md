@@ -45,6 +45,7 @@ Starting with the first problem that is documented on day 6 (started counting wh
 
 The decision to show two graphs next to eachother was a good one, because comparing two networks is better when they are side to side than selected by a dropdown.
 The dropdown I implemented for my barchart is also very nice, because it is good to load different data there and compare it between the two networks.
+I also did not add legends for the network graph and barchart. This is because the colours itself are already the legend. The module as a whole is not a certain object, but the colours are only there to point out those nodes are within a group.
 
 In an ideal world, I would've implemented a universal function that creates a network based on input data, and not a fixed function that always draws two, two data inputs. Also I would've have more input for the barchart.
 
