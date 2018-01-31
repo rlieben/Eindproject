@@ -18,3 +18,13 @@ The application is shown with an average frail and non-frail functional brain ne
 A property of networks is modularity. This is the subdivision of a network in smaller clustered networks called modules. In the visualization, the colours show to what module the node belongs to. There is no legend added for this, because the modules itself do not have a name, but merely the colour is defining which module a node belongs to. The network is established on a correlation on how much the signal of two brain regions correlate. The shorter the length of the weight, the stronger the correlation. 
 The barchart show average correlation strength of each node or modularity value of each node. The first speaks for itself, but the latter is the degree in how modular the node is. There is no unit of measure for these parameters, so I did not add it to the y-axis.
 The heatmap shows correlation strength between each node.
+
+## Sources
+
+https://bl.ocks.org/mbostock/4062045
+http://bl.ocks.org/ianyfchang/8119685#data_heatmap.tsv
+https://bl.ocks.org/mbostock/3885304
+http://bl.ocks.org/d3noob/7030f35b72de721622b8
+https://github.com/shanegibney/D3-v4-Sortable-Bar-Chart-Checkbox-1-Value/blob/master/index.html
+https://d3js.org/
+https://getbootstrap.com/
