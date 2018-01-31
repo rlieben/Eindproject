@@ -35,3 +35,6 @@ Then there are three more script files. The first one interactiveClick.js is cal
 The script dropdownSwitch.js hides or shows the selected data in the dropdown menu.
 
 The last script is showTooltip.js and is called when the mouse hovers over an element. It returns a tooltip with some info on the element.
+
+## Challenges
+
