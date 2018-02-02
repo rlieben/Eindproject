@@ -7,6 +7,7 @@ Copyright (c) 2018 Raoul Lieben
 ##### Content: Visualization of functional frail and non-frail brain network data
 
 Go to project: Github Pages Project: https://rlieben.github.io/Eindproject
+
 Product demo video: https://vimeo.com/253946642
 
 # Functional brain network visualization
